@@ -16,9 +16,23 @@ class Adventurer(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+    password = db.Column(db.String)
     #Serializers
     #Relationships
+    # the Adventurer has many hiked_trails
+    # the Adventurer has many trail_reviews
+    # Adventurer has many friends
+    trail_reviews = db.relationship('TrailReview', back_populates='adventurer')
+    hiked_trails = db.relationship('HikedTrail', back_populates='adventurer')
+    # trails = association_proxy
     #Validations
+    @validates('email')
+    def validate_email(self, key, address):
+        if '@' not in address:
+            raise ValueError('failed simple email validation')
+        return address
 
 class HikedTrail(db.Model, SerializerMixin):
     __tablename__ = "hiked_trails"
@@ -32,6 +46,8 @@ class HikedTrail(db.Model, SerializerMixin):
     trails= db.Column(db.String)
     #Serializers
     #Relationships
+    #hikedTrail has many adventurers
+    adventurers = db.relationship('Adventurer', back_populates='hiked_trail')
     #Validations
 
 class Trail(db.Model, SerializerMixin):
@@ -46,6 +62,8 @@ class Trail(db.Model, SerializerMixin):
     description = db.Column(db.String)
     #Serializers
     #Relationships
+    # A Trail has many trail reviews
+    trail_reviews = db.relationship('TrailReview', back_populates='trail')
     #Validations
 
 class TrailReview(db.Model, SerializerMixin):
@@ -58,6 +76,7 @@ class TrailReview(db.Model, SerializerMixin):
     trail = db.Column(db.String)
     #Serializers
     #Relationships
+    # Trail reviews has many
     #Validations
 
 class Friend(db.Model, SerializerMixin):
