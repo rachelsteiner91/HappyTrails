@@ -9,6 +9,9 @@
 - View information about each trail
 
 ## Wireframe
+https://www.figma.com/file/7zUR0oTTuSDc9zeY66zNAW/Happy-Trails-team-library?type=design&node-id=0%3A1&mode=design&t=slX3AmVv58niUTyR-1
+![Screenshot 2023-06-22 at 11 13 02 PM](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/41f66e0f-003a-4986-b569-36ed4d5c7f40)
+
 
 ## Schema
 ![Untitled](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/6b987c27-72c5-4826-8eab-33b725394d00)
