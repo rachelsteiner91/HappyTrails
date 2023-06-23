@@ -11,6 +11,8 @@
 ## Wireframe
 
 ## Schema
+![Untitled](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/6b987c27-72c5-4826-8eab-33b725394d00)
+
 
 
 ## API Routes
