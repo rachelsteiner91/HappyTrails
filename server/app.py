@@ -37,61 +37,67 @@ api = Api(app)
 def index():
     return '<h1>Happy Trails</h1>'
 
+
+###############################
+##THIS NEEDS TO BE TESTED######
+###############################
+
+
 # # Views go here!
 #-------SIGNUP-------------#
-class Signup(Resource):
-    def post(self):
-        data = request.get_json()
-        new_adventurer = Adventurer(
-            name = data.get('name'),
-            email = data.get('email'))
-        new_adventurer.password_hash = data.get('password')
-        db.session.add(new_adventurer)
-        db.session.commit()
-        session['adventurer_id'] = new_adventurer.id
-        return make_response(new_adventurer.to_dict(), 201)
+# class Signup(Resource):
+#     def post(self):
+#         data = request.get_json()
+#         new_adventurer = Adventurer(
+#             name = data.get('name'),
+#             email = data.get('email'))
+#         new_adventurer.password_hash = data.get('password')
+#         db.session.add(new_adventurer)
+#         db.session.commit()
+#         session['adventurer_id'] = new_adventurer.id
+#         return make_response(new_adventurer.to_dict(), 201)
 
 
         
-#-----LOGIN-------------#
-class Login(Resource):
-    def post(self):
-        try:
-            data = request.get_json()
-            adventurer = Adventurer.query.filter_by(
-                username = data.get('username')).first()
-            if adventurer.authenticate(data.get('password')):
-                session['adventurer_id'] = adventurer.id
-                return make_response(adventurer.to_dict(), 200)
-        except:
-            return make_response({"401": "Unauthorized"},401)  
+# #-----LOGIN-------------#
+# class Login(Resource):
+#     def post(self):
+#         try:
+#             data = request.get_json()
+#             adventurer = Adventurer.query.filter_by(
+#                 username = data.get('username')).first()
+#             if adventurer.authenticate(data.get('password')):
+#                 session['adventurer_id'] = adventurer.id
+#                 return make_response(adventurer.to_dict(), 200)
+#         except:
+#             return make_response({"401": "Unauthorized"},401)  
             
             
 
-#-----LOGOUT------------#
-class Logout(Resource):
-    def delete(self):
-        session['adventurer_id'] = None
-        return make_response({"204":"No Content"},204)
+# #-----LOGOUT------------#
+# class Logout(Resource):
+#     def delete(self):
+#         session['adventurer_id'] = None
+#         return make_response({"204":"No Content"},204)
         
 
         
-#------AUTHORIZE SESSION----------#
-class AuthorizeSession(Resource):
-    def get(self):
-        try:
-            adventurer = Adventurer.query.filter_by(
-                Adventurer.id == session.get('adventurer_id')).first()
-            return make_response(adventurer.to_dict(), 200)
-        except:
-            return make_response({}, 401)
+# #------AUTHORIZE SESSION----------#
+# class AuthorizeSession(Resource):
+#     def get(self):
+#         try:
+#             adventurer = Adventurer.query.filter_by(
+#                 Adventurer.id == session.get('adventurer_id')).first()
+#             return make_response(adventurer.to_dict(), 200)
+#         except:
+#             return make_response({}, 401)
         
 
                
-api.add_resource(Signup, '/signup')    
-api.add_resource(Login, '/login')   
-api.add_resource(Logout, '/logout')
-api.add_resource(AuthorizeSession, '/authorize_session')
+# api.add_resource(Signup, '/signup')    
+# api.add_resource(Login, '/login')   
+# api.add_resource(Logout, '/logout')
+# api.add_resource(AuthorizeSession, '/authorize_session')
      
 
 
@@ -104,7 +110,7 @@ class Adventurers(Resource):
             #1. query
             adventurers = Adventurer.query.all()
             #2. dict
-            adventurers_dict = [a.to_dict() for a in adventurers]
+            adventurers_dict = [a.to_dict(only = ("name", "username", "email", "password", "trail_reviews", "trails_list")) for a in adventurers]
             #3. res
             res = make_response(
                 adventurers_dict,
@@ -152,13 +158,15 @@ class OneAdventurer(Resource):
         adventurer = Adventurer.query.filter_by(id=id).first()
         if not adventurer:
             return {"404": "Adventurer Not Found"}, 404
-        adventurer_dict = adventurer.to_dict()
+        adventurer_dict = adventurer.to_dict(only = ("name", "username", "email", "password", "trail_reviews", "trails_list"))
         res = make_response(
             adventurer_dict,
             200
         )
         return res
+ 
 
+        
 #PATCH /adventurers/<int:id>
 #edit/update one user
     def patch(self, id):
@@ -177,23 +185,36 @@ class OneAdventurer(Resource):
                 )
         except:
             return {"400": "Adventurer Update Unsuccessful."}, 400
+
+
+
+
+
+
+###############################
+##THIS NEEDS TO BE TESTED######
+###############################
+
+######IS NOT DELETING####
+####IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed:
+		# hiked_trails.adventurer_id
+		# [SQL: UPDATE hiked_trails SET adventurer_id=? WHERE hiked_trails.id = ?]
+		# [parameters: [(None, 9), (None, 11), (None, 12), (None, 14), (None, 16), (None, 19)]]
+
 #DELETE /adventurers/<int:id>
 #delete a user
-    def delete(self):
+    def delete(self, id):
         adventurer = Adventurer.query.filter_by(id=id).first()
         if not adventurer:
             return {"404": "Adventurer Not Found"}, 404
         db.session.delete(adventurer)
         db.session.commit()
-        return make_response(
-            {},
-            204
-        )
+        return {}, 204
         
 api.add_resource(OneAdventurer, "/adventurers/<int:id>")
 
 
-#---ADVENTURERS-----------------------------#
+# #---ADVENTURERS-----------------------------#
 
 
 
@@ -201,7 +222,7 @@ api.add_resource(OneAdventurer, "/adventurers/<int:id>")
 class Trails(Resource):
     def get(self):
         trails = Trail.query.all()
-        trails_dict = [trail.to_dict() for trail in trails]
+        trails_dict = [trail.to_dict(only = ("name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")) for trail in trails]
         return make_response(trails_dict, 200)
     def post(self): #----add to READMe----#
         data = request.get_json()
@@ -227,24 +248,29 @@ api.add_resource(Trails, '/trails')
 
 class OneTrail(Resource):
     def get(self, id):
-        one_trail = Trail.query.filter_by(id == id).first()
+        one_trail = Trail.query.filter_by(id= id).first()
         if not one_trail:
             return make_response({"404": "Trail Not Found"}, 404)
         
         return make_response(one_trail.to_dict(), 200)
 api.add_resource(OneTrail, '/trails/<int:id>')    
-#---TRAILS-----------------------------#
+# #---TRAILS-----------------------------#
 
 
 
 #---HIKED TRAILS-----------------------------#
 #GET /hiked_trails
 #get list of trails that have been hiked
+###############################
+##THIS NEEDS TO BE TESTED######
+###############################
+
+####WHAT DO WE WANT THIS TO LOOK LIKE?####  
 class HikedTrails(Resource):
     def get(self):
         try:
             hiked_trails = HikedTrail.query.all()
-            hiked_trails_dict = [h.to_dict() for h in hiked_trails]
+            hiked_trails_dict = [h.to_dict(only = ("date", "trail")) for h in hiked_trails]
             res = make_response(
                 hiked_trails_dict,
                 200
@@ -262,16 +288,17 @@ class OneHikedTrail(Resource):
         hiked_trail = HikedTrail.query.filter_by(id=id).first()
         if not hiked_trail:
             return {"404": "Hiked Trail Not Found"}, 404
-        hiked_trail_dict = hiked_trail.to_dict()
+        hiked_trail_dict = hiked_trail.to_dict(only = ("adventurer_id", "trail_id", "trail", "date"))
         res = make_response(
             hiked_trail_dict,
             200
         )
         return res
 
+
 #DELETE /hiked_trails/<int:id>
 #delete trails user has hiked
-    def delete(self):
+    def delete(self, id):
         hiked_trail = HikedTrail.query.filter_by(id=id).first()
         if not hiked_trail:
             return {"404": "Hiked Trails Not Found"}, 404
@@ -282,33 +309,39 @@ class OneHikedTrail(Resource):
             204
         )
 
+
 api.add_resource(OneHikedTrail, "/hiked_trails/<int:id>")
 
 
-#---HIKED TRAILS-----------------------------#
+# #---HIKED TRAILS-----------------------------#
 
 
 
 #---TRAIL REVIEWS-----------------------------#
+
+###############################
+##THIS NEEDS TO BE TESTED######
+###############################
+
 #get /trail_reviews
 class TrailReviews(Resource):
     def get(self):
         # trail_review = TrailReview.query.all()
-        trail_reviews_dict = [t.to_dict() for t in TrailReview.query.all()]
-        return trail_reviews_dict, 200
+        trail_reviews_dict = [t.to_dict(only = ("review", "adventurer_id", "trail_id")) for t in TrailReview.query.all()]
+        return make_response(trail_reviews_dict, 200)
     #POST 
     def post(self):
         data = request.get_json()
-        new_trail_review = TrailReview(
-            review = data.get('review'),
-            adventurer_id=data.get('adventurer_id'),
-            trail_id=data.get('trail_id')
-            
-        )
         try:
+            new_trail_review = TrailReview(
+                review = data.get('review'),
+                adventurer_id=data.get('adventurer_id'),
+                trail_id=data.get('trail_id')
+                
+            )
             db.session.add(new_trail_review)
             db.session.commit()
-            return new_trail_review.to_dict(), 201
+            return make_response(new_trail_review.to_dict(only = ("review", "adventurer_id", "trail_id")), 201)
         except ValueError:
             return ({'error': '400: Validation error'}, 400)
 
@@ -322,16 +355,17 @@ class OneTrailReview(Resource):
         one_review = TrailReview.query.filter_by(id=id).first()
         if not one_review:
             return ({'error': '404: review not found'})
-        return one_review.to_dict(
+        return make_response(one_review.to_dict(
             only=(
-                'review'
-                'adventurer_id'
+                'review',
+                'adventurer_id',
                 'trail_id'
             )
+        ), 200
         )
 #PATCH /trail_reviews/int:id
     def patch(self,id):
-        review = TrailReview.query.filter_by(TrailReview.id==id).first()
+        review = TrailReview.query.filter_by(id=id).first()
         if not review:
             return ({'error': '404: review not found'}, 404)
         try:
@@ -340,15 +374,11 @@ class OneTrailReview(Resource):
                 setattr(review, attr, data.get(attr))
             db.session.add(review)
             db.session.commit()
-            return make_response(review.to_dict(
-                    only=(
-                        'review',
-                    )),
-                    202
-                )
+            return make_response(review.to_dict(only=('review',)),202)
         except:
             return {'error': '400'}
 
+# DELETE /trail_reviews/int:id
     def delete(self, id):
         review = TrailReview.query.filter(TrailReview.id ==id).first()
         if not review:
@@ -357,13 +387,12 @@ class OneTrailReview(Resource):
         db.session.commit()
         return {}, 204
 
-# DELETE /trail_reviews/int:id
 
 api.add_resource(OneTrailReview, '/trail_reviews/<int:id>')
 
 
 
-#---TRAIL REVIEWS-----------------------------#
+# #---TRAIL REVIEWS-----------------------------#
 
 
 
@@ -371,7 +400,7 @@ api.add_resource(OneTrailReview, '/trail_reviews/<int:id>')
 class Locations(Resource):
     def get(self):
         locations = Location.query.all()
-        locations_dict = [location.to_dict() for location in locations]
+        locations_dict = [location.to_dict(only = ("location_type", "name")) for location in locations]
         return make_response(locations_dict, 200)
     
     def post(self):
@@ -387,16 +416,22 @@ class Locations(Resource):
         except:
             return make_response({"ERROR"}, 422)
 
-        return make_response(new_location.to_dict(), 201) 
+        return make_response(new_location.to_dict(only = ("id", "location_type", "name")), 201) 
 api.add_resource(Locations, '/locations')
+
+
+###############################
+##THIS NEEDS TO BE TESTED######
+###############################
+####WHAT DO WE WANT TO SEE?####
 
 class OneLocation(Resource):
     
     def get(self, id):
-        one_location = Location.query.filter_by(id == id).first()
+        one_location = Location.query.filter_by(id = id).first()
         if not one_location:
             return make_response({"404: Trail Not Found"}, 404)
-        return make_response(one_location.to_dict(), 200)
+        return make_response(one_location.to_dict(only = ("location_type", "name", "trails_list")), 200)
     
 api.add_resource(OneLocation, '/locations/<int:id>')    
      
