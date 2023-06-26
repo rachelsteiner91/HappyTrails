@@ -29,17 +29,10 @@ class Adventurer(db.Model, SerializerMixin):
     trail_reviews = db.relationship('TrailReview', back_populates='adventurer')
     hiked_trails = db.relationship('HikedTrail', back_populates='adventurer')
 
-
     #ASSOCIATION PROXY
     # the Adventurer has many trails through hiked_trails
     trails_list = association_proxy('hiked_trails', 'trail')
-    
-    #SERIALIZER
 
-
-
-    
-     
     #VALIDATIONS
     @validates("name")
     def validate_name(self, key, name):
@@ -72,8 +65,8 @@ class HikedTrail(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
-    adventurer_id = db.Column(db.Integer, db.ForeignKey('adventurers.id'), nullable=False)
-    trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'), nullable=False)
+    adventurer_id = db.Column(db.Integer, db.ForeignKey('adventurers.id'))
+    trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'))
     
     #RELATIONSHIPS
     #hikedTrail has one adventurer and one trail
@@ -111,12 +104,10 @@ class Trail(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     difficulty = db.Column(db.String)
-    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
     distance = db.Column(db.String)
     altitude = db.Column(db.String)
     description = db.Column(db.String)
-    trail_reviews_id = db.Column(db.Integer)
-    location_id = db.Column(db.Integer)
 
     #RELATIONSHIPS
     # A Trail has many hikes (hiked_trails)
