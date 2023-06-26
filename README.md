@@ -39,14 +39,24 @@ https://www.figma.com/file/7zUR0oTTuSDc9zeY66zNAW/Happy-Trails-team-library?type
 | /friends                 | GET    |                                                                                        | {     "id" : 5,     "name" : "Beau" }, {..}, {..}, ...                                                                                                            |
 | /friends/<int:id>        | GET    |                                                                                        | {     "id" : 5,     "name" : "Beau" }                                                                                                                             |
 | /friends/<int:id>        | DELETE |                                                                                        | {}                                                                                                                                                                |
-|/login | GET | | friends:[], hiked_trails: [] |
-|/authorize_session | GET | {"username": ***, "password":****}| |
+|/login | GET | |  |
+|/authorize_session | GET | | |
 
 ## React Component Tree
 <img src='./react-tree.png' alt="React Tree">
 
 ## Client-side Routes
-
+| Client Route   | Component     |
+|----------------|---------------|
+| /              | App.js        |
+| /trails        | trailList.js  |
+| /trail/id      | trailCard.js  |
+| /friends       | friendList    |
+| /friends/id    | friendCard.js |
+| /add_review/id | addReview.js  |
+| /favorites     | favorites.js  |
+| /safety        | safety.js     |
+| /login         | loginForm.js  |
 
 ## Trello Board
 <img src='./Trello.png' alt='Trello'>
