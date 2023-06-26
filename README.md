@@ -39,7 +39,7 @@ https://www.figma.com/file/7zUR0oTTuSDc9zeY66zNAW/Happy-Trails-team-library?type
 | /friends                 | GET    |                                                                                        | {     "id" : 5,     "name" : "Beau" }, {..}, {..}, ...                                                                                                            |
 | /friends/<int:id>        | GET    |                                                                                        | {     "id" : 5,     "name" : "Beau" }                                                                                                                             |
 | /friends/<int:id>        | DELETE |                                                                                        | {}                                                                                                                                                                |
-|/login | POST | |  |
+|/login | POST | {"name":"Val", "password": "******"} |  |
 |/authorize_session | GET | | |
 
 ## React Component Tree
