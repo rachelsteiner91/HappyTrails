@@ -13,11 +13,11 @@ from sqlalchemy import MetaData
 
 app = Flask(__name__)
 
-bcrypt = Bcrypt(app) ## not sure what this is - it was from the lecture 
+# bcrypt = Bcrypt(app) ## not sure what this is - it was from the lecture 
 # Local imports
 # from config import app, db, api
 # Instantiate app, set attributes
-from models import db, Adventurer, HikedTrail, Trail, TrailReview, Friend, Location
+from models import db, Adventurer, HikedTrail, Trail, TrailReview, Location
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
