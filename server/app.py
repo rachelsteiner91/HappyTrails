@@ -86,7 +86,7 @@ class AuthorizeSession(Resource):
 api.add_resource(Signup, '/signup')    
 api.add_resource(Login, '/login')   
 api.add_resource(Logout, '/logout')
-api.add_resource(AuthorizeSession, 'authorize_session')
+api.add_resource(AuthorizeSession, '/authorize_session')
      
 
 
@@ -277,7 +277,7 @@ class OneHikedTrail(Resource):
             204
         )
 
-api.add_resource(HikedTrails, "/hiked_trails/<int:id>")
+api.add_resource(OneHikedTrail, "/hiked_trails/<int:id>")
 
 
 #---HIKED TRAILS-----------------------------#
