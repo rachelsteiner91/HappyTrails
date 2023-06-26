@@ -2,6 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from sqlalchemy import MetaData
+from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
 
@@ -24,12 +25,13 @@ class Adventurer(db.Model, SerializerMixin):
     #Relationships
     # the Adventurer has many hiked_trails
     #the adventuruer has many reviews 
-    # One Adventurer has many friends (friends_list)
+
     trail_reviews = db.relationship('TrailReview', back_populates='adventurer')
     hiked_trails = db.relationship('HikedTrail', back_populates='adventurer')
     # Association Proxy:
      # the Adventurer has many trails through hiked_trails
-     # trails_ist = assocaition_proxy('hiked_trails', 'adventurer')
+    trails_list = association_proxy('hiked_trails', 'trail')
+    
      #the adventurer has a riends_list 
      # a trail review has many 
     #Validations
@@ -48,11 +50,11 @@ class HikedTrail(db.Model, SerializerMixin):
     trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'), nullable=False)
     hiked_trails = db.Column(db.String)
     trail_reviews = db.Column(db.String)
-    trails= db.Column(db.String)
     #Serializers
     #Relationships
     #hikedTrail has one adventurer and one trail
-    adventurers = db.relationship('Adventurer', back_populates='hiked_trail')
+    adventurer = db.relationship('Adventurer', back_populates='hiked_trails')
+    trail = db.relationship('Trail', back_populates='hiked_trails')
     #Validations
 
 class Trail(db.Model, SerializerMixin):
@@ -70,7 +72,9 @@ class Trail(db.Model, SerializerMixin):
     # A Trail has many hikes (hiked_trails)
     # a trail has a location 
     # a Trail has many Reviews through Trail_Reviews 
-    trail_reviews = db.relationship('TrailReview', back_populates='trail')
+    hiked_trails = db.relationship('HikedTrail', back_populates='trail')
+    location = db.relationship('Location', back_populates='trails')
+    trail_reviews = db.relationship('TrailReview', back_populates='trail')    
     #Validations
 
 class TrailReview(db.Model, SerializerMixin):
@@ -79,11 +83,13 @@ class TrailReview(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     review = db.Column(db.String)
     adventurer_id = db.Column(db.Integer, db.ForeignKey('adventurers.id'), nullable=False)
-    adventurer = db.Column(db.String)
-    trail = db.Column(db.String)
+    trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'), nullable=False)
     #Serializers
+
     #Relationships
         # Each review has one Trail and one Adventurer 
+    adventurer = db.relationship('Adventurer', back_populates='trail_reviews')
+    trail = db.relationship('Trail', back_populates='trail_reviews')
     #Validations
 
 
@@ -97,4 +103,5 @@ class Location(db.Model, SerializerMixin):
     #Serializers
     #Relationships
         #Each Location has many Trails (trails_list)
+    trails = db.relationship('Trail', back_populates='location')
     #Validations
