@@ -10,11 +10,11 @@
 
 ## Wireframe
 https://www.figma.com/file/7zUR0oTTuSDc9zeY66zNAW/Happy-Trails-team-library?type=design&node-id=0%3A1&mode=design&t=slX3AmVv58niUTyR-1
-
+![Screenshot 2023-06-26 at 11 42 55 AM](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/85b3f5b6-f09d-4110-a482-4227de7af35c)
 
 
 ## Schema
-![Untitled (1)](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/97128a69-8d55-4e34-a566-c89a23f67764)
+![Untitled (2)](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/43afc067-3eba-4e2f-9444-cd6f437e8251)
 
 
 
