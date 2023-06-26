@@ -14,7 +14,7 @@ https://www.figma.com/file/7zUR0oTTuSDc9zeY66zNAW/Happy-Trails-team-library?type
 
 
 ## Schema
-![Untitled](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/6b987c27-72c5-4826-8eab-33b725394d00)
+![Untitled (1)](https://github.com/rachelsteiner91/HappyTrails/assets/128323898/97128a69-8d55-4e34-a566-c89a23f67764)
 
 
 
