@@ -48,8 +48,6 @@ class HikedTrail(db.Model, SerializerMixin):
     date = db.Column(db.Date)
     adventurer_id = db.Column(db.Integer, db.ForeignKey('adventurers.id'), nullable=False)
     trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'), nullable=False)
-    hiked_trails = db.Column(db.String)
-    trail_reviews = db.Column(db.String)
     #Serializers
     #Relationships
     #hikedTrail has one adventurer and one trail
@@ -67,6 +65,8 @@ class Trail(db.Model, SerializerMixin):
     distance = db.Column(db.String)
     altitude = db.Column(db.String)
     description = db.Column(db.String)
+    trail_reviews_id = db.Column(db.Integer)
+    location_id = db.Column(db.Integer)
     #Serializers
     #Relationships
     # A Trail has many hikes (hiked_trails)
@@ -99,9 +99,8 @@ class Location(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     location_type = db.Column(db.String)
-    trail = db.Column(db.String)
     #Serializers
     #Relationships
         #Each Location has many Trails (trails_list)
-    trails = db.relationship('Trail', back_populates='location')
+    trails_list = db.relationship('Trail', back_populates='location')
     #Validations
