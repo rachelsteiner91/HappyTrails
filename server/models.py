@@ -33,6 +33,14 @@ class Adventurer(db.Model, SerializerMixin):
     # the Adventurer has many trails through hiked_trails
     trails_list = association_proxy('hiked_trails', 'trail')
 
+    # #SERIALIZE RULES
+    serialize_rules = (
+    #     "-trail_reviews.adventurer",
+         "-hiked_trails.adventurer",
+         "-trails_list.adventurers",
+         "-trails_list.hiked_trails"
+     )
+
     #VALIDATIONS
     @validates("name")
     def validate_name(self, key, name):
@@ -76,7 +84,7 @@ class HikedTrail(db.Model, SerializerMixin):
     #SERIALIZER
     serialize_rules = (
         "-adventurer.hiked_trails",
-        "-trail.hiked_trails"
+        "-trail.hiked_trails",
     )
     #VALIDATIONS
     @validates("date")
@@ -116,6 +124,13 @@ class Trail(db.Model, SerializerMixin):
     hiked_trails = db.relationship('HikedTrail', back_populates='trail')
     location = db.relationship('Location', back_populates='trails_list')
     trail_reviews = db.relationship('TrailReview', back_populates='trail')   
+
+    #SERIALIZE RULES
+    serialize_rules =(
+        "-hiked_trails.trail",
+        "-trail_reviews.trail",
+        "-location.trails_list"
+    )
 
     #VALIDATION
     #do we need to validate?
@@ -165,6 +180,11 @@ class Location(db.Model, SerializerMixin):
     trails_list = db.relationship('Trail', back_populates='location')
 
     #SERIALIZER
+    serialize_rules = (
+        "-trails_list.location",
+        "-trails_list.trail_reviews",
+        "-trails_list.hiked_trails"
+    )
 
 
     #VALIDATIONS
