@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import React from 'react';
+
 import LoginForm from './LoginForm';
 import FavoriteButton from './FavoriteButton';
 import SafetyReportForm from './SafetyReportForm';
@@ -21,6 +22,12 @@ App
 |
 |---AdventurerCard
 */
+=
+import LoginForm from './login_form';
+import Favorites from './favorites';
+import Safety from './safety';
+
+
 
 function App() {
   // Code goes here!
@@ -29,8 +36,8 @@ function App() {
         return (
             <div>
                 <LoginForm />
-                <FavoriteButton />
-                <SafetyReportForm />
+                <Favorites />
+                <Safety />
             </div>
         );
     }

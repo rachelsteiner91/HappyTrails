@@ -1,6 +1,6 @@
 import React from 'react';
 
-class FavoriteButton extends React.Component {
+class Favorites extends React.Component {
     render() {
         return (
             <button>Add to Favorites</button>
@@ -8,4 +8,4 @@ class FavoriteButton extends React.Component {
     }
 }
 
-export default FavoriteButton;
+export default Favorites;
