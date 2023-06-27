@@ -1,5 +1,6 @@
 {
-  "name": "phase-4-rails-putting-it-all-together-auth-client",
+  
+  "name" : "HappyTrails",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5555",
