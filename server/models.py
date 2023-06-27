@@ -21,6 +21,8 @@ class Adventurer(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String)
+    bio = db.Column(db.String)
+    image = db.Column(db.String)
     #####validate password#### 
 
     #RELATIONSHIP

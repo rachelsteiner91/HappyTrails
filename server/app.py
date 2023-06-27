@@ -111,7 +111,7 @@ class Adventurers(Resource):
             #1. query
             adventurers = Adventurer.query.all()
             #2. dict
-            adventurers_dict = [a.to_dict(only = ("name", "username", "email", "password", "trail_reviews", "trails_list")) for a in adventurers]
+            adventurers_dict = [a.to_dict(only = ("bio", "image", "name", "username", "email", "password", "trail_reviews", "trails_list")) for a in adventurers]
             #3. res
             res = make_response(
                 adventurers_dict,
@@ -133,7 +133,9 @@ class Adventurers(Resource):
                 name = data.get("name"),
                 username = data.get("username"),
                 email = data.get("email"),
-                password = data.get("password")
+                password = data.get("password"),
+                bio = data.get("bio"),
+                image = data.get("image"),
             )
             #3. add/commit
             db.session.add(new_adventurer)
@@ -159,7 +161,7 @@ class OneAdventurer(Resource):
         adventurer = Adventurer.query.filter_by(id=id).first()
         if not adventurer:
             return {"404": "Adventurer Not Found"}, 404
-        adventurer_dict = adventurer.to_dict(only = ("name", "username", "email", "password", "trail_reviews", "trails_list"))
+        adventurer_dict = adventurer.to_dict(only = ("bio", "image", "name", "username", "email", "password", "trail_reviews", "trails_list"))
         res = make_response(
             adventurer_dict,
             200
