@@ -26,8 +26,8 @@ class Adventurer(db.Model, SerializerMixin):
     #RELATIONSHIP
     #the Adventurer has many hiked_trails
     #the adventuruer has many reviews 
-    trail_reviews = db.relationship('TrailReview', back_populates='adventurer')
-    hiked_trails = db.relationship('HikedTrail', back_populates='adventurer')
+    trail_reviews = db.relationship('TrailReview', back_populates='adventurer', cascade="all, delete-orphan")
+    hiked_trails = db.relationship('HikedTrail', back_populates='adventurer', cascade="all, delete-orphan")
 
     #ASSOCIATION PROXY
     # the Adventurer has many trails through hiked_trails
