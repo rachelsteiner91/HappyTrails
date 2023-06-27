@@ -3,7 +3,7 @@ import TrailCard from './TrailCard'
 
 function TrailList() {
   return (
-    <div>TrailList
+    <div>Hiking Trails
       <TrailCard/>
     </div>
   )
