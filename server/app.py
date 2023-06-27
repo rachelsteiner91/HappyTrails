@@ -287,7 +287,6 @@ class OneHikedTrail(Resource):
         )
         return res
 
-
 #DELETE /hiked_trails/<int:id>
 #delete trails user has hiked
     def delete(self, id):
