@@ -1,6 +1,6 @@
 import React from 'react';
 
-class SafetyReportForm extends React.Component {
+class Safety extends React.Component {
     render() {
         return (
             <form>
@@ -14,5 +14,5 @@ class SafetyReportForm extends React.Component {
     }
 }
 
-export default SafetyReportForm;
+export default Safety;
 
