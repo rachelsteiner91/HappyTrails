@@ -6,7 +6,6 @@ import LoginForm from './LoginForm'
 
 function Authorization({adventurers}) {
   return (
-    <>
       <div>Authorization
         {/*adventurer card*/}
           <div>
@@ -20,7 +19,6 @@ function Authorization({adventurers}) {
           <HikedTrail />
           <LoginForm />
       </div>
-    </>
   )
 }
 
