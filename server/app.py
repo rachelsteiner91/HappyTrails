@@ -204,6 +204,7 @@ class OneAdventurer(Resource):
 #DELETE /adventurers/<int:id>
 #delete a user
     def delete(self, id):
+
         adventurer = Adventurer.query.filter_by(id=id).first()
         if not adventurer:
             return {"404": "Adventurer Not Found"}, 404
