@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
-import React, {useState} from 'react';
+import { Switch, Route, BrowserRouter } from "react-router-dom";
+import NavBar from "./NavBar";
+import Search from "./Search";
 
-import LoginForm from '../src/components/LoginForm';
-import FavoriteButton from './FavoriteButton';
-import SafetyReportForm from './SafetyReportForm';
-import LoginForm from './login_form';
-import Favorites from '../src/components/favorites';
-import Safety from '../src/components/Safety';
+import TrailList from "./TrailList";
+import Favorites from "./Favorites";
+import Authorization from "./Authorization";
+import Safety from "./Safety";
+
+
+
+
 
 /*
 App
