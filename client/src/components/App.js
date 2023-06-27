@@ -1,83 +1,160 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import NavBar from "./NavBar";
 import Search from "./Search";
-
 import TrailList from "./TrailList";
 import Favorites from "./Favorites";
 import Authorization from "./Authorization";
 import Safety from "./Safety";
 
-
-
-
-
-/*
-App
-|---NavBar
-|---Search
-|---Safety
-|---Favorites
-|---Authorization
-|       |- AdventurerCard(profile page)
-|       |- AddReview
-|       |-LoginForm
-|       |- HikedTrailList
-|               |-HikedTrailCard
-|---TrailList
-    |-TrailCard
-
-*/
-
-
 function App() {
+  const [adventurers, setAdventurers] = useState([]);
+  const [trails, setTrails] = useState([]);
 
-  //Adventurer state
-  const [adventurers, setAdventurers] = useState([])
-  //Trails state
-  const [trails, setTrails] = useState([])
+  useEffect(() => {
+    getTrails();
+    getAdventurers();
+  }, []);
 
-  //GET request for trails
-  useEffect(() => {getTrails()}, [] )
-
-  function getTrails(){
+  function getTrails() {
     fetch('/trails')
-    .then(res => res.json())
-    .then(data => setTrails(data))
-  }
- 
+      .then(res => res.json())
+      .then(data => console.log(data));
 
-//GET Adventurers
-useEffect((e) => {
-  fetch('/adventurers')
-  .then(res => res.json())
-  .then(adventurers => setAdventurers(adventurers))
-}, [])
-
-
-
- 
-
-
- 
-  class App extends React.Component {
-    render() {
-        return (
-            <div>
-                <NavBar />
-                <Search />
-                <Routes>
-                  <Route exact path="/" element={<TrailList/>}>Explore</Route>
-                  <Route exact path="/favorites" element={<Favorites />}>Favorites</Route>
-                  {/* Does this path name need to be changed? Or are we cool with this?*/}
-                  <Route exact path="/profile" element={<Authorization adventurers={adventurers}/>}>Profile or Login/Logout?</Route>
-                  <Route exact path="/safety-guidelines" element={<Safety />}>Safety Guidelines</Route>
-                </Routes>
-            </div>
-        );
-    }
   }
 
+  function getAdventurers() {
+    fetch('/adventurers')
+      .then(res => res.json())
+      .then(data => setAdventurers(data));
+  }
+
+  return (
+    <div>
+      <Router>
+        <NavBar />
+        <Search />
+        <Switch>
+          <Route exact path="/" component={TrailList} />
+          <Route exact path="/favorites" component={Favorites} />
+          <Route exact path="/profile" render={(props) => <Authorization {...props} adventurers={adventurers} />} />
+          <Route exact path="/safety-guidelines" component={Safety} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+// import NavBar from "./NavBar";
+// import Search from "./Search";
+
+// import TrailList from "./TrailList";
+// import Favorites from "./Favorites";
+// import Authorization from "./Authorization";
+// import Safety from "./Safety";
+
+
+
+
+
+// /*
+// App
+// |---NavBar
+// |---Search
+// |---Safety
+// |---Favorites
+// |---Authorization
+// |       |- AdventurerCard(profile page)
+// |       |- AddReview
+// |       |-LoginForm
+// |       |- HikedTrailList
+// |               |-HikedTrailCard
+// |---TrailList
+//     |-TrailCard
+
+// */
+
+
+// function App() {
+
+//   //Adventurer state
+//   const [adventurers, setAdventurers] = useState([])
+//   //Trails state
+//   const [trails, setTrails] = useState([])
+
+//   //GET request for trails
+//   useEffect(() => {getTrails()}, [] )
+
+//   function getTrails(){
+//     fetch('/trails')
+//     .then(res => res.json())
+//     .then(data => setTrails(data))
+//   }
+ 
+
+// //GET Adventurers
+// useEffect((e) => {
+//   fetch('/adventurers')
+//   .then(res => res.json())
+//   .then(adventurers => setAdventurers(adventurers))
+// }, [])
+
+
+
+
+ 
+//   class App extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                 <NavBar />
+//                 <Search />
+//                 <Routes>
+//                   <Route exact path="/" element={<TrailList/>}>Explore</Route>
+//                   <Route exact path="/favorites" element={<Favorites />}>Favorites</Route>
+//                   {/* Does this path name need to be changed? Or are we cool with this?*/}
+//                   <Route exact path="/profile" element={<Authorization adventurers={adventurers}/>}>Profile or Login/Logout?</Route>
+//                   <Route exact path="/safety-guidelines" element={<Safety />}>Safety Guidelines</Route>
+//                 </Routes>
+//             </div>
+//         );
+//     }
+//   }
+
+// }
+
+// export default App;
