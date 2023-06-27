@@ -1,43 +1,75 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
-import React from 'react';
+import React, {useState} from 'react';
 
-import LoginForm from './LoginForm';
+import LoginForm from '../src/components/LoginForm';
 import FavoriteButton from './FavoriteButton';
 import SafetyReportForm from './SafetyReportForm';
+import LoginForm from './login_form';
+import Favorites from '../src/components/favorites';
+import Safety from '../src/components/Safety';
+
 /*
 App
 |---NavBar
 |---Search
 |---Safety
-|---Login_form
-|---Favorite
+|---Favorites
 |---Authorization
 |       |- AdventurerCard(profile page)
 |       |- AddReview
+|       |-LoginForm
 |       |- HikedTrailList
 |               |-HikedTrailCard
 |---TrailList
-|     |-TrailCard
-|
-|---AdventurerCard
-*/
-=
-import LoginForm from './login_form';
-import Favorites from './favorites';
-import Safety from './safety';
+    |-TrailCard
 
+*/
 
 
 function App() {
-  // Code goes here!
+
+  //Adventurer state
+  const [adventurers, setAdventurers] = useState([])
+  //Trails state
+  const [trails, setTrails] = useState([])
+
+  //GET request for trails
+  useEffect(() => {getTrails()}, [] )
+
+  function getTrails(){
+    fetch('/trails')
+    .then(res => res.json())
+    .then(data => setTrails(data))
+  }
+ 
+
+//GET Adventurers
+useEffect((e) => {
+  fetch('/adventurers')
+  .then(res => res.json())
+  .then(adventurers => setAdventurers(adventurers))
+}, [])
+
+
+
+ 
+
+
+ 
   class App extends React.Component {
     render() {
         return (
             <div>
-                <LoginForm />
-                <Favorites />
-                <Safety />
+                <NavBar />
+                <Search />
+                <Routes>
+                  <Route exact path="/" element={<TrailList/>}>Explore</Route>
+                  <Route exact path="/favorites" element={<Favorites />}>Favorites</Route>
+                  {/* Does this path name need to be changed? Or are we cool with this?*/}
+                  <Route exact path="/profile" element={<Authorization adventurers={adventurers}/>}>Profile or Login/Logout?</Route>
+                  <Route exact path="/safety-guidelines" element={<Safety />}>Safety Guidelines</Route>
+                </Routes>
             </div>
         );
     }
