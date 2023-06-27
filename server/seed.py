@@ -40,14 +40,15 @@ if __name__ == '__main__':
 
         print("Seeding adventurers...")
         adventurers_list = [
-            Adventurer(name="Val Caliguire", username="Val02", email="val@happytrails.com"),
-            Adventurer(name="Rachel Steiner", username="Rachel", email="rachel@happytrails.com"),
-            Adventurer(name="Matty Brouwer", username="Matty", email="matty@happytrails.com"),
-            Adventurer(name="Sarah Dean", username="Sarah", email="sarah@happytrails.com"),
-            Adventurer(name="Cole Levy", username="Cole23", email="cole@happytrails.com")
+            Adventurer(name="Val Caliguire", username="Val02", email="val@happytrails.com", bio=fake.sentence(10), image="https://placedog.net/640/480?r"),
+            Adventurer(name="Rachel Steiner", username="Rachel", email="rachel@happytrails.com", bio=fake.sentence(10), image="https://placedog.net/640/480?r"),
+            Adventurer(name="Matty Brouwer", username="Matty", email="matty@happytrails.com", bio=fake.sentence(10), image="https://placedog.net/640/480?r"),
+            Adventurer(name="Sarah Dean", username="Sarah", email="sarah@happytrails.com", bio=fake.sentence(10), image="https://placedog.net/640/480?r"),
+            Adventurer(name="Cole Levy", username="Cole23", email="cole@happytrails.com", bio=fake.sentence(10), image="https://placedog.net/640/480?r")
         ]
-
         db.session.add_all(adventurers_list)
+        # print(adventurers_list)
+
         print("Seeding trails...")
         trails = [
             Trail(name="Angels Landing", difficulty="Strenuous",  location_id=1, distance="8.7 km", altitude="1488m", description="This iconic hike offers breathtaking views of Zion Canyon."),
@@ -73,9 +74,8 @@ if __name__ == '__main__':
         ]
 
         db.session.add_all(trails)
-
-        
         db.session.add_all(locations)
+
         print("Seeding hiked trails...")
         hiked_trails = []
         for trail in trails:
@@ -87,16 +87,26 @@ if __name__ == '__main__':
             db.session.add_all(hiked_trails)
             
         print("Seeding reviews...")
-        reviews = []
-        for review in reviews:
-            trail = rc(trails)
-            one_adventurer = rc(adventurers_list)
-            fake_review = fake.sentence()
-            reviews.append(
-                TrailReview(trail=trail, adventurer=one_adventurer, review=fake_review)
-            )
 
-        db.session.add_all(reviews)
+        # fake_reviews = []
+        # for _ in range(50):
+        #     fake_reviews.append(fake.sentence(10))
+        # print("Created fake reviews...")
+        
+        # TrailReview(trail=trail, adventurer=one_adventurer, review=fake.sentence(10)),
+        reviews_list = []
+        # for review in fake_reviews:
+        #     trail = rc(trails),
+        #     one_adventurer = rc(adventurers_list),
+        #     reviews_list.append(
+        #         TrailReview(trail=trail, adventurer=one_adventurer, review=review)
+        #     )
+        for _ in range(50):
+            reviews_list.append(
+                TrailReview(trail=rc(trails), adventurer=rc(adventurers_list), review=fake.sentence(10))
+            )
+        db.session.add_all(reviews_list)
+
         db.session.commit()
         print("Done Seeding!")
 

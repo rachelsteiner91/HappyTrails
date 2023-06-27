@@ -23,6 +23,9 @@ class Adventurer(db.Model, SerializerMixin):
     password = db.Column(db.String)
     bio = db.Column(db.String)
     image = db.Column(db.String)
+
+    def __repr__(self):
+        return f'name:{self.name} username:{self.username}, bio:{self.bio}, image:{self.image}' 
     #####validate password#### 
 
     #RELATIONSHIP
