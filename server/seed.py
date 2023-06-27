@@ -91,9 +91,9 @@ if __name__ == '__main__':
         for review in reviews:
             trail = rc(trails)
             one_adventurer = rc(adventurers_list)
-            review = fake.text(10)
+            fake_review = fake.sentence()
             reviews.append(
-                TrailReview(trail=trail, adventurer=one_adventurer, review=review)
+                TrailReview(trail=trail, adventurer=one_adventurer, review=fake_review)
             )
 
         db.session.add_all(reviews)
