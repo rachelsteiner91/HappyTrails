@@ -7,6 +7,7 @@ import Favorites from "./Favorites";
 import Authorization from "./Authorization";
 import Safety from "./Safety";
 
+
 function App() {
   const [adventurers, setAdventurers] = useState([]);
   const [trails, setTrails] = useState([]);
