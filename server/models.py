@@ -85,7 +85,8 @@ class HikedTrail(db.Model, SerializerMixin):
     serialize_rules = (
         "-adventurer.hiked_trails",
         "-trail.hiked_trails",
-    )
+        "-trail.trail_reviews", "-trail.location_id", "-trail.description")
+    
     #VALIDATIONS
     @validates("date")
     def validate_date(self, key, date):
@@ -102,7 +103,6 @@ class HikedTrail(db.Model, SerializerMixin):
     #         return True
     #     else:
     #         return False
-
 
 
 
@@ -131,7 +131,7 @@ class Trail(db.Model, SerializerMixin):
         "-trail_reviews.trail",
         "-location.trails_list"
     )
-
+   
     #VALIDATION
     #do we need to validate?
 

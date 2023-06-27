@@ -42,6 +42,7 @@ def index():
 ##THIS NEEDS TO BE TESTED######
 ###############################
 
+######SECURITY - ADD BLEACH OR ESCAPE TO ROUTES THAT INVOLVE CHANGES TO THE DB
 
 # # Views go here!
 #-------SIGNUP-------------#
@@ -189,13 +190,7 @@ class OneAdventurer(Resource):
 
 
 
-
-
-###############################
-##THIS NEEDS TO BE TESTED######
-###############################
-
-######IS NOT DELETING####
+######ERROR FIXED - WAS NOT DELETING####
 ####IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed:
 		# hiked_trails.adventurer_id
 		# [SQL: UPDATE hiked_trails SET adventurer_id=? WHERE hiked_trails.id = ?]
@@ -262,11 +257,7 @@ api.add_resource(OneTrail, '/trails/<int:id>')
 #---HIKED TRAILS-----------------------------#
 #GET /hiked_trails
 #get list of trails that have been hiked
-###############################
-##THIS NEEDS TO BE TESTED######
-###############################
 
-####WHAT DO WE WANT THIS TO LOOK LIKE?####  
 class HikedTrails(Resource):
     def get(self):
         try:
@@ -320,10 +311,6 @@ api.add_resource(OneHikedTrail, "/hiked_trails/<int:id>")
 
 #---TRAIL REVIEWS-----------------------------#
 
-###############################
-##THIS NEEDS TO BE TESTED######
-###############################
-
 #get /trail_reviews
 class TrailReviews(Resource):
     def get(self):
@@ -349,8 +336,7 @@ class TrailReviews(Resource):
 api.add_resource(TrailReviews, '/trail_reviews')
 
 
-
- #GET /trail_reviews/int:id
+#GET /trail_reviews/int:id
 class OneTrailReview(Resource):
     def get(self, id):
         one_review = TrailReview.query.filter_by(id=id).first()
@@ -421,10 +407,6 @@ class Locations(Resource):
 api.add_resource(Locations, '/locations')
 
 
-###############################
-##THIS NEEDS TO BE TESTED######
-###############################
-####WHAT DO WE WANT TO SEE?####
 
 class OneLocation(Resource):
     
