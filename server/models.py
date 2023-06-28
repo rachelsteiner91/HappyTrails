@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from sqlalchemy import MetaData
 from sqlalchemy.ext.associationproxy import association_proxy
-
-from config import db
+from sqlalchemy.ext.hybrid import hybrid_property
+from config import db, bcrypt
 
 db = SQLAlchemy() 
 metadata = MetaData(naming_convention={
@@ -18,15 +18,26 @@ class Adventurer(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    username = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False)
-    password = db.Column(db.String)
+    _password_hash = db.Column(db.String)
     bio = db.Column(db.String)
     image = db.Column(db.String)
 
     def __repr__(self):
-        return f'name:{self.name} username:{self.username}, bio:{self.bio}, image:{self.image}' 
+       return f'name:{self.name} username:{self.username}, bio:{self.bio}, image:{self.image}' 
     #####validate password#### 
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate.password_hash(password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(self._password_hash, password)    
 
     #RELATIONSHIP
     #the Adventurer has many hiked_trails
@@ -40,10 +51,13 @@ class Adventurer(db.Model, SerializerMixin):
 
     # #SERIALIZE RULES
     serialize_rules = (
-    #     "-trail_reviews.adventurer",
+         "-trails_list.trails",
+         "-trail_reviews.adventurer",
          "-hiked_trails.adventurer",
          "-trails_list.adventurers",
-         "-trails_list.hiked_trails"
+         "-trails_list.hiked_trails",
+         "-_password_hash",
+         "-trail_reviews"
      )
 
     #VALIDATIONS
@@ -134,7 +148,17 @@ class Trail(db.Model, SerializerMixin):
     serialize_rules =(
         "-hiked_trails.trail",
         "-trail_reviews.trail",
-        "-location.trails_list"
+        "-location.trails_list",
+        "-trail_reviews.adventurer",
+        "-trail_reviews.adventurer_id",
+        "-trail_reviews.trail_id",
+        "-location.locations.id",
+        "-location_id",
+        "-location.id",
+        "-trail_reviews.trail_id",
+        "-trail_reviews.id",
+        
+
     )
    
     #VALIDATION

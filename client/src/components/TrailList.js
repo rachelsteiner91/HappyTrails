@@ -1,10 +1,14 @@
 import React from 'react'
 import TrailCard from './TrailCard'
 
-function TrailList() {
+function TrailList({trails}) {
+  const trailCards = trails.map((trail) => (
+    <TrailCard
+    key={trail.id}
+    trail={trail}/>)); 
   return (
-    <div>Hiking Trails
-      <TrailCard/>
+    <div className="TrailsList">Hiking Trails
+      {trailCards}
     </div>
   )
 }
