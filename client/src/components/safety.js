@@ -3,16 +3,14 @@ import React from 'react';
 class Safety extends React.Component {
     render() {
         return (
-            <form>
-                <label>
-                    Report:
-                    <textarea />
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
+            <div>
+                <h1>Safety Information</h1>
+                <p>General safety information for hikers goes here...</p>
+            </div>
         );
     }
 }
 
 export default Safety;
+
 

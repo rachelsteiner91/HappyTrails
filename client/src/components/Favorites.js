@@ -3,7 +3,10 @@ import React from 'react';
 class Favorites extends React.Component {
     render() {
         return (
-            <button>Add to Favorites</button>
+            <div>
+                <h1>Favorite Trails</h1>
+                <p>List of user's favorite trails will go here...</p>
+            </div>
         );
     }
 }
