@@ -20,7 +20,7 @@ function App() {
   function getTrails() {
     fetch('/trails')
       .then(res => res.json())
-      .then(data => console.log(data));
+      .then(data => setTrails(data));
 
   }
 
@@ -36,7 +36,7 @@ function App() {
         <NavBar />
         <Search />
         <Switch>
-          <Route exact path="/" component={TrailList} />
+          <Route exact path="/" component={TrailList} trails={trails} />
           <Route exact path="/favorites" component={Favorites} />
           <Route exact path="/profile" render={(props) => <Authorization {...props} adventurers={adventurers} />} />
           <Route exact path="/safety-guidelines" component={Safety} />
