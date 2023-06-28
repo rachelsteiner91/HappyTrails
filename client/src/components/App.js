@@ -9,7 +9,6 @@ import Favorites from "./Favorites";
 import Auth from "./Auth";
 import Safety from "./Safety";
 import AdventurerContainer from "./AdventurerContainer";
-import LoginForm from "./LoginForm";
 
 function App() {
   const [adventurers, setAdventurers] = useState([]);
@@ -40,7 +39,6 @@ function App() {
       
         <NavBar />
         <Search />
-        <LoginForm />
         <Routes>
           <Route path="/trails" element={<TrailList trails={trails}/>} />
           <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
