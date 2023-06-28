@@ -13,4 +13,4 @@ function TrailList({trails}) {
   )
 }
 
-export default TrailList
+export default TrailList;
