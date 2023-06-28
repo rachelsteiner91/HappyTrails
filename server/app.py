@@ -115,7 +115,7 @@ class Adventurers(Resource):
             #1. query
             adventurers = Adventurer.query.all()
             #2. dict
-            adventurers_dict = [a.to_dict(only = ("bio", "image", "name", "username", "email", "trail_reviews", "trails_list")) for a in adventurers]
+            adventurers_dict = [a.to_dict(only = ("bio", "image", "name", "username", "email")) for a in adventurers]
             #3. res
             res = make_response(
                 adventurers_dict,
@@ -178,21 +178,22 @@ class OneAdventurer(Resource):
 #edit/update one user
     def patch(self, id):
         adventurer = Adventurer.query.filter_by(id=id).first()
+        data = request.get_json()
         if not adventurer:
             return {"404": "Adventurer Not Found"}, 404
         
-        data = request.get_json()
-        try:    
-            for attr in data:
-                setattr(adventurer, attr, data.get(attr))
-            db.session.add(adventurer)
-            db.session.commit()
-            return make_response(
-               adventurer.to_dict(), 
-                200
-                )
-        except:
-            return make_response({"400": "Adventurer Update Unsuccessful."}, 400)
+        else:
+            try:    
+                for attr in data:
+                    setattr(adventurer, attr, data.get(attr))
+                db.session.add(adventurer)
+                db.session.commit()
+                return make_response(
+                    adventurer.to_dict(), 
+                    200
+                        )
+            except:
+                return make_response({"400": "Adventurer Update Unsuccessful."}, 400)
         
        
 
