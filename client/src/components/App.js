@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import { Routes, Route } from "react-router-dom";
+
 import NavBar from "./NavBar";
 import Search from "./Search";
 import TrailList from "./TrailList";
@@ -32,17 +34,23 @@ function App() {
 
   return (
     <div>
+
       
         <NavBar />
         <Search />
         <TrailList trails={trails} />
         <Routes>
           <Route exact path="/authorization" element={<Authorization/>} />
+
+
+
           <Route exact path="/favorites" component={Favorites} />
           <Route exact path="/profile" render={(props) => <Authorization {...props} adventurers={adventurers} />} />
           <Route exact path="/safety-guidelines" component={Safety} />
         </Routes>
+
       
+
     </div>
   );
 }

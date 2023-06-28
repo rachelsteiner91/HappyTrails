@@ -190,8 +190,8 @@ class TrailReview(db.Model, SerializerMixin):
     def validate_review(self, key, review):
         if not review:
             raise ValueError("Must include a review.")
-        if len(review) < 25:
-            raise ValueError("Review must be at least 25 characters.")
+        if len(review) < 5:
+            raise ValueError("Review must be at least 5 characters.")
         return review
 
 
