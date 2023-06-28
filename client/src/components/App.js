@@ -10,9 +10,10 @@ import Authorization from "./Authorization";
 import Safety from "./Safety";
 
 
+
 function App() {
   const [adventurers, setAdventurers] = useState([]);
-  const [trails, setTrails] = useState([]);
+  const [trails, setTrails] = useState([]); // Initialize to empty array
 
   useEffect(() => {
     getTrails();
@@ -22,14 +23,15 @@ function App() {
   function getTrails() {
     fetch('/trails')
       .then(res => res.json())
-      .then(data => setTrails(data));
-
+      .then(data => setTrails(data))
+      .catch((error) => console.error('Error:', error));
   }
 
   function getAdventurers() {
     fetch('/adventurers')
       .then(res => res.json())
-      .then(data => setAdventurers(data));
+      .then(data => setAdventurers(data))
+      .catch((error) => console.error('Error:', error));
   }
 
   return (
