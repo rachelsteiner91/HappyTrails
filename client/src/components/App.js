@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+
+import { Routes, Route } from "react-router-dom";
+
 import NavBar from "./NavBar";
 import Search from "./Search";
 import TrailList from "./TrailList";
@@ -34,17 +36,23 @@ function App() {
 
   return (
     <div>
-      <Router>
+
+      
         <NavBar />
         <Search />
-        <Switch>
-          <Route exact path="/" component={TrailList} trails={trails} />
+        <TrailList trails={trails} />
+        <Routes>
+          <Route exact path="/authorization" element={<Authorization/>} />
+
+
+
           <Route exact path="/favorites" component={Favorites} />
           <Route exact path="/profile" render={(props) => <Authorization {...props} adventurers={adventurers} />} />
           <Route exact path="/safety-guidelines" component={Safety} />
-          <Route exact path="/" render={(props) => <TrailList {...props} trails={trails} />} />
-        </Switch>
-      </Router>
+        </Routes>
+
+      
+
     </div>
   );
 }

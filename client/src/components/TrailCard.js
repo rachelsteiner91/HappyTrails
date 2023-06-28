@@ -12,6 +12,7 @@ function TrailCard({ trail }) {
             <Favorites trailId={id} />
         </ul>
     )
+
 }
 
 export default TrailCard;

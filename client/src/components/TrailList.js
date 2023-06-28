@@ -1,12 +1,14 @@
 import React from 'react'
 import TrailCard from './TrailCard'
 
-function TrailList({ trails }) {
+function TrailList({trails}) {
+  const trailCards = trails.map((trail) => (
+    <TrailCard
+    key={trail.id}
+    trail={trail}/>)); 
   return (
-    <div>Hiking Trails
-      {trails && trails.length > 0 ? trails.map((trail) => (
-        <TrailCard key={trail.id} trail={trail} />
-      )) : <p>Loading trails...</p>}
+    <div className="TrailsList">Hiking Trails
+      {trailCards}
     </div>
   )
 }
