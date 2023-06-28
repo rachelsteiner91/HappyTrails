@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e2883da4b645
+Revision ID: 3f1682c049ef
 Revises: 
-Create Date: 2023-06-26 14:44:00.206191
+Create Date: 2023-06-27 21:30:45.509874
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e2883da4b645'
+revision = '3f1682c049ef'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,8 +23,11 @@ def upgrade():
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('username', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
-    sa.Column('password', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.Column('_password_hash', sa.String(), nullable=False),
+    sa.Column('bio', sa.String(), nullable=True),
+    sa.Column('image', sa.String(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('username')
     )
     op.create_table('locations',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -36,7 +39,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('difficulty', sa.String(), nullable=True),
-    sa.Column('location_id', sa.Integer(), nullable=False),
+    sa.Column('location_id', sa.Integer(), nullable=True),
     sa.Column('distance', sa.String(), nullable=True),
     sa.Column('altitude', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
@@ -46,8 +49,8 @@ def upgrade():
     op.create_table('hiked_trails',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('date', sa.Date(), nullable=True),
-    sa.Column('adventurer_id', sa.Integer(), nullable=False),
-    sa.Column('trail_id', sa.Integer(), nullable=False),
+    sa.Column('adventurer_id', sa.Integer(), nullable=True),
+    sa.Column('trail_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['adventurer_id'], ['adventurers.id'], name=op.f('fk_hiked_trails_adventurer_id_adventurers')),
     sa.ForeignKeyConstraint(['trail_id'], ['trails.id'], name=op.f('fk_hiked_trails_trail_id_trails')),
     sa.PrimaryKeyConstraint('id')

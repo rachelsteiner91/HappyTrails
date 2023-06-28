@@ -1,5 +1,8 @@
 import React from 'react';
+//import Card from "react-bootstrap/Card";
 
+
+//rachel to check onthis
 class Favorites extends React.Component {
     render() {
         return (
