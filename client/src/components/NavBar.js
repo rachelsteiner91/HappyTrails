@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from "react-router-dom"
+import { Link, useNavigate, NavLink } from "react-router-dom"
 
 
 function NavBar() {
@@ -8,7 +8,11 @@ function NavBar() {
       <h1>
         <span className="logo" role="img">
         </span>
-      </h1> 
+      </h1>
+      <nav>
+        <NavLink exact to = "/trails"> Trails </NavLink>
+        <NavLink exact to = "/adventurers"> Profile </NavLink>
+      </nav>
     </header>
   );
 }

@@ -6,7 +6,7 @@ import * as yup from "yup";
 import {useNavigate} from "react-router-dom"
 
 //should be adventurer form
-function LoginForm(){
+function Auth(){
 
     const navigate = useNavigate()
     //create schema:
@@ -138,6 +138,48 @@ function LoginForm(){
     )
 }
 
-export default LoginForm;
+export default Auth;
 
 
+  // const [signup, setSignup] = useState(true);
+	// const [error, setError] = useState(null);
+
+	// const navigate = useNavigate();
+	// const toggleSignup = () => setSignup((prev) => !prev)
+
+
+  // const formSchema = yup.object().shape({
+	// 	name: yup.string(),
+	// 	username: yup.string().required("Please enter a username"),
+	// 	password: yup.string().required("Please enter a password"),
+	// });
+
+
+  // const formik = useFormik({
+	// 	initialValues: {
+	// 		username: "",
+	// 		name: "",
+	// 		password: "",
+	// 	},
+  //   validationSchema: formSchema,
+	// 	onSubmit: (values, actions) => {
+  //     //only want to make a post to users if signup is true
+  //     fetch(signup ? "/signup" : "/login", {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"content-type": "application/json",
+	// 			},
+	// 			body: JSON.stringify(values),
+	// 		}).then((res) => {
+	// 			if (res.ok) {
+	// 				res.json().then((data) => {
+	// 					actions.resetForm()
+	// 					updateUser(data)
+	// 					navigate("/")
+	// 				});
+	// 			} else {
+  //         res.json().then((err) => setError(err.message))
+  //         }
+  //       })
+  //   }
+  // })
