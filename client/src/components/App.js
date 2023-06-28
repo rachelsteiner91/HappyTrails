@@ -20,7 +20,7 @@ function App() {
   function getTrails() {
     fetch('/trails')
       .then(res => res.json())
-      .then(data => console.log(data));
+      .then(data => setTrails(data));
 
   }
 
