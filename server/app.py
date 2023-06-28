@@ -9,7 +9,7 @@ from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-# from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 
@@ -23,10 +23,10 @@ from models import db, Adventurer, HikedTrail, Trail, TrailReview, Location
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
-
+app.secret_key = b'\xb8j\x8c\\\xea\xfdZr$\xf7\xa7\xec\xdc\x90\xcdd'
 migrate = Migrate(app, db)
 db.init_app(app)
-
+bcrypt = Bcrypt(app)
 # Instantiate REST API
 api = Api(app)
 
@@ -46,59 +46,63 @@ def index():
 
 # # Views go here!
 #-------SIGNUP-------------#
-# class Signup(Resource):
-#     def post(self):
-#         data = request.get_json()
-#         new_adventurer = Adventurer(
-#             name = data.get('name'),
-#             email = data.get('email'))
-#         new_adventurer.password_hash = data.get('password')
-#         db.session.add(new_adventurer)
-#         db.session.commit()
-#         session['adventurer_id'] = new_adventurer.id
-#         return make_response(new_adventurer.to_dict(), 201)
+class Signup(Resource):
+     def post(self):
+         data = request.get_json()
+         new_adventurer = Adventurer(
+             name = data.get('name'),
+             username = data.get('username'),
+             email = data.get('email'),
+             bio = data.get('bio'),
+             image = data.get('image'))
+         new_adventurer.password_hash = data.get('password')
+         db.session.add(new_adventurer)
+         db.session.commit()
+         session['adventurer_id'] = new_adventurer.id
+         return make_response(new_adventurer.to_dict(), 201)
 
-
+api.add_resource(Signup, '/signup') 
         
-# #-----LOGIN-------------#
-# class Login(Resource):
-#     def post(self):
-#         try:
-#             data = request.get_json()
-#             adventurer = Adventurer.query.filter_by(
-#                 username = data.get('username')).first()
-#             if adventurer.authenticate(data.get('password')):
-#                 session['adventurer_id'] = adventurer.id
-#                 return make_response(adventurer.to_dict(), 200)
-#         except:
-#             return make_response({"401": "Unauthorized"},401)  
+ #-----LOGIN-------------#
+class Login(Resource):
+     def post(self):
+         try:
+             data = request.get_json()
+             adventurer = Adventurer.query.filter_by(
+                 username = data.get('username')).first()
+             if adventurer.authenticate(data.get('password')):
+                 session['adventurer_id'] = adventurer.id
+                 return make_response(adventurer.to_dict(), 200)
+         except:
+             return make_response({"401": "Unauthorized"},401)  
             
-            
+api.add_resource(Login, '/login')             
 
 # #-----LOGOUT------------#
-# class Logout(Resource):
-#     def delete(self):
-#         session['adventurer_id'] = None
-#         return make_response({"204":"No Content"},204)
+class Logout(Resource):
+     def delete(self):
+         session['adventurer_id'] = None
+         return make_response({"204":"No Content"},204)
         
 
-        
-# #------AUTHORIZE SESSION----------#
-# class AuthorizeSession(Resource):
-#     def get(self):
-#         try:
-#             adventurer = Adventurer.query.filter_by(
-#                 Adventurer.id == session.get('adventurer_id')).first()
-#             return make_response(adventurer.to_dict(), 200)
-#         except:
-#             return make_response({}, 401)
+api.add_resource(Logout, '/logout')       
+ #------AUTHORIZE SESSION----------#
+
+class AuthorizeSession(Resource):
+    def get(self):
+         try:
+             adventurer = Adventurer.query.filter_by(
+                Adventurer.id == session.get('adventurer_id')).first()
+             return make_response(adventurer.to_dict(), 200)
+         except:
+             return make_response({}, 401)
         
 
                
-# api.add_resource(Signup, '/signup')    
-# api.add_resource(Login, '/login')   
-# api.add_resource(Logout, '/logout')
-# api.add_resource(AuthorizeSession, '/authorize_session')
+   
+  
+
+api.add_resource(AuthorizeSession, '/authorize_session')
      
 
 
@@ -107,52 +111,52 @@ def index():
 #get users
 class Adventurers(Resource):
     def get(self):
-        try:
+    
             #1. query
             adventurers = Adventurer.query.all()
             #2. dict
-            adventurers_dict = [a.to_dict(only = ("bio", "image", "name", "username", "email", "password", "trail_reviews", "trails_list")) for a in adventurers]
+            adventurers_dict = [a.to_dict(only = ("bio", "image", "name", "username", "email", "trail_reviews", "trails_list")) for a in adventurers]
             #3. res
             res = make_response(
                 adventurers_dict,
                 200
             )
             return res
-        except:
-            return {"404": "Adventurer Not Found"}, 404
+          
 
-
+api.add_resource(Adventurers, '/adventurers')
 #POST /adventurers
 #make a new user
-    def post(self):
+ #   def post(self):
+
         #1. data
-        data = request.get_json()
-        try:
+ #       data = request.get_json()
+  #      try:
             #2. instance
-            new_adventurer = Adventurer(
-                name = data.get("name"),
-                username = data.get("username"),
-                email = data.get("email"),
-                password = data.get("password"),
-                bio = data.get("bio"),
-                image = data.get("image"),
-            )
+   #         new_adventurer = Adventurer(
+    #            name = data.get("name"),
+     #           username = data.get("username"),
+      #          email = data.get("email"),
+       #         password = data.get("password"),
+        #        bio = data.get("bio"),
+         #       image = data.get("image"),
+          #  )
             #3. add/commit
-            db.session.add(new_adventurer)
-            db.session.commit()
+           # db.session.add(new_adventurer)
+            #db.session.commit()
             #4. dict
-            new_adventurer_dict = new_adventurer.to_dict()
+            #new_adventurer_dict = new_adventurer.to_dict()
             #5. res
-            res = make_response(
-                new_adventurer_dict,
-                201
-            )
-            return res
-        except:
-            return {"400": "Adventurer Creation Unsuccessful"}, 400
+            #res = make_response(
+             #   new_adventurer_dict,
+              #  201
+           # )
+            #return res
+        #except:
+         #   return {"400": "Adventurer Creation Unsuccessful"}, 400
 
 #api
-api.add_resource(Adventurers, "/adventurers")
+
 
 #GET /adventurers/<int:id>
 #get one user
@@ -161,9 +165,9 @@ class OneAdventurer(Resource):
         adventurer = Adventurer.query.filter_by(id=id).first()
         if not adventurer:
             return {"404": "Adventurer Not Found"}, 404
-        adventurer_dict = adventurer.to_dict(only = ("bio", "image", "name", "username", "email", "password", "trail_reviews", "trails_list"))
+        
         res = make_response(
-            adventurer_dict,
+            adventurer.to_dict(only=('id', 'name', 'username', 'bio', 'image')),
             200
         )
         return res
@@ -176,19 +180,21 @@ class OneAdventurer(Resource):
         adventurer = Adventurer.query.filter_by(id=id).first()
         if not adventurer:
             return {"404": "Adventurer Not Found"}, 404
-        try:
-            data = request.get_json()
+        
+        data = request.get_json()
+        try:    
             for attr in data:
                 setattr(adventurer, attr, data.get(attr))
-                db.session.add(adventurer)
-                db.session.commit()
+            db.session.add(adventurer)
+            db.session.commit()
             return make_response(
-                adventurer.to_dict(), 
-                202
+               adventurer.to_dict(), 
+                200
                 )
         except:
-            return {"400": "Adventurer Update Unsuccessful."}, 400
-
+            return make_response({"400": "Adventurer Update Unsuccessful."}, 400)
+        
+       
 
 
 
@@ -220,7 +226,7 @@ api.add_resource(OneAdventurer, "/adventurers/<int:id>")
 class Trails(Resource):
     def get(self):
         trails = Trail.query.all()
-        trails_dict = [trail.to_dict(only = ("name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")) for trail in trails]
+        trails_dict = [trail.to_dict(only = ("id","name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")) for trail in trails]
         return make_response(trails_dict, 200)
     def post(self): #----add to READMe----#
         data = request.get_json()
@@ -246,11 +252,12 @@ api.add_resource(Trails, '/trails')
 
 class OneTrail(Resource):
     def get(self, id):
-        one_trail = Trail.query.filter_by(id= id).first()
+        one_trail = Trail.query.filter_by(id = id).first()
         if not one_trail:
             return make_response({"404": "Trail Not Found"}, 404)
         
-        return make_response(one_trail.to_dict(), 200)
+        return make_response(one_trail.to_dict(only = ("id","name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")), 200)
+
 api.add_resource(OneTrail, '/trails/<int:id>')    
 # #---TRAILS-----------------------------#
 
