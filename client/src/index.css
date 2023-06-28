@@ -1,36 +1,39 @@
-
 * {
     font-family: "Arial";
-
-h1 {
-        background-color:#CBDBE2;
-        color: #9F6457;
-    }
+  }
+  
+  h1 {
+    background-color: #f3f7f8;
+    color: #9f6457;
   }
   
   .logo {
-    width: 100px; 
-    height: auto; 
-    float: left; 
-    margin-right: 10px; 
+    width: 140px;
+    height: auto;
+    float: left;
+    margin-right: 10px;
+    background-color: #9f6457;
   }
-
-
-header {
-    background-color:#9F6457;
-    color: #f3f7f8;
-}
-
-body {
-    background-color: #9F6457;
-    color:#f3f7f8;
-    font-family:Arial, Helvetica, sans-serif
-}
-
-.search {
+  
+  header {
+    background-color: #9f6457;
+    color: #fefefe;
+  }
+  
+  .root {
+    background-color: #9f6457;
+    color: #fefefe;
+  }
+  
+  body {
+    background-color: #fefefe;
+    color: #9f6457;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .search {
     width: 50%;
     text-align: center;
-  
     position: relative;
     display: block;
     margin: auto;
@@ -47,24 +50,23 @@ body {
     outline: none;
     font-size: 1.5rem;
   }
+  
   .image-container {
     display: flex;
-    justify-content: center; /* Center the images horizontally */
+    justify-content: center;
+   
     vertical-align: middle;
+    background-color: #fefefe;
   }
   
   .image-container img {
-    max-width: 100%; /* Ensure the images don't exceed their original width */
-    margin: 10px; /* Add some margin around the images for spacing */
-  }
-/*   
-  img {
-    height: auto;
     max-width: 100%;
-    vertical-align: middle;
-  } */
   
-
+    margin: 20px;
+    
+    background-color: #fefefe;
+  }
+  
   .btn {
     background-color: white;
     color: #696969;
@@ -75,9 +77,10 @@ body {
     width: 100%;
   }
   
-  .cards {
-    display: flex;
-    flex-wrap: wrap;
+  .trailcard {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    grid-gap: 1rem; 
     list-style: none;
     margin: 0;
     padding: 0;
@@ -86,19 +89,23 @@ body {
   .cards__item {
     display: flex;
     padding: 1rem;
-    width: 25%;
+    
   }
   
-  .card {
+  .ul {
     background-color: white;
     border-radius: 0.25rem;
-    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
-
-#main-header{
+  
+  .trailcard {
+    font-size: 10px; 
+  }
+  
+  #main-header {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -109,4 +116,11 @@ body {
   
   .centered {
     text-align: center;
-  } 
+  }
+
+  
+  
+  
+  
+  
+  
