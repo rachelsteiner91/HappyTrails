@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './App.css';
 import NavBar from "./NavBar";
 import TrailList from "./TrailList";
+import Search from "./Search"
 import {Routes, Route } from 'react-router-dom'
 import { Box, Container } from '@mui/material';
+import { search } from '@material-ui/icons';
 
 
 function App() {
@@ -32,6 +34,9 @@ function App() {
   return (
     <div>
         <NavBar />
+        <Box>
+          <Search />
+        </Box>
         <Box>
           <TrailList trails={trails} />
         </Box>
