@@ -15,6 +15,7 @@ import AdventurerContainer from "./AdventurerContainer";
 function App() {
   const [adventurers, setAdventurers] = useState([]);
   const [trails, setTrails] = useState([]); // Initialize to empty array
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     getTrails();
@@ -35,17 +36,25 @@ function App() {
       .catch((error) => console.error('Error:', error));
   }
 
+  const handleSearch = (newStr) => {
+    setSearch(newStr)
+  }
+
+ const filteredTrails = [...trails].filter(trail =>
+    trail.name.toLowerCase().includes(search.toLowerCase()))
+
+  
   return (
     <div>
         <NavBar />
         <Box>
-          <Search />
+          <Search search={search} handleSearch={handleSearch}/>
         </Box>
         <Box>
-          </Box>
-        <TrailList trails={trails}/>
+  
+        <TrailList trails={filteredTrails}/>
         <Routes>
-          <Route path="/home" element={<TrailList trails={trails}/>} />
+          <Route path="/home" element={<TrailList trails={filteredTrails}/>}/>
           {/* <Route path="/safety" element={<Safety />} /> */}
           <Route path="/auth" element={<Auth />} />
           <Route path="/trail_reviews" element={<AddReview />} />
@@ -53,6 +62,7 @@ function App() {
           {/* <Route path="/trails" element={<TrailList trails={trails}/>} /> */}
           <Route path="/hiked_trails" element={<HikedTrailsList />} />
         </Routes>
+        </Box>
     </div>
   )}
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, InputBase, Toolbar } from '@mui/material'
+import { Box, InputBase, Toolbar, Button } from '@mui/material'
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -46,11 +46,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 //rachel to cross check this with canvas
-function Search({setSearch, search}) {
+function Search({handleSearch, search}) {
 
-    function handleChange(e) {
-        setSearch(e.target.value)
-    }
+function handleChange(e) {
+      handleSearch(e.target.value)
+  }
+
   return (
 //     <div className="ui search"> 
 //         <div className="ui icon input">
@@ -82,8 +83,13 @@ function Search({setSearch, search}) {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
+                value={search}
+                type="text"
+                id="search"
+                onChange={(e) => handleChange(e)}
               />
         </SearchBar>
+        <Button>Search</Button>
       </Toolbar>
     </Box>
   )
