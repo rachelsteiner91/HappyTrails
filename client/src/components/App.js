@@ -41,6 +41,7 @@ function App() {
     <div>
         <NavBar />
         <Routes>
+          <Route path="/home" element={<TrailList trails={trails}/>} />
           <Route path="/safety" element={<Safety />} />
           <Route path="/auth" element={<Authorization />} />
           <Route path="/trail_reviews" element={<AddReview />} />

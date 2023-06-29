@@ -10,6 +10,7 @@ function NavBar({adventurer}) {
         </span>
       </h1>
       <nav>
+        <NavLink exact to = "/home"> Home </NavLink>
         <NavLink exact to = "/safety"> Safety </NavLink>
         <NavLink exact to = "/trail_reviews"> New Review </NavLink>
         <NavLink exact to = "/adventurers"> Adventure Profile </NavLink>
