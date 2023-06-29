@@ -227,13 +227,14 @@ api.add_resource(OneAdventurer, "/adventurers/<int:id>")
 class Trails(Resource):
     def get(self):
         trails = Trail.query.all()
-        trails_dict = [trail.to_dict(only = ("id","name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")) for trail in trails]
+        trails_dict = [trail.to_dict(only = ("id","name", "image", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")) for trail in trails]
         return make_response(trails_dict, 200)
     def post(self): #----add to READMe----#
         data = request.get_json()
         try:
             new_trail = Trail(
                 name = data.get('name'),
+                image = data.get('image'),
                 difficulty = data.get('difficulty'),
                 location_id = data.get('location_id'),
                 distance = data.get('distance'),
@@ -257,7 +258,7 @@ class OneTrail(Resource):
         if not one_trail:
             return make_response({"404": "Trail Not Found"}, 404)
         
-        return make_response(one_trail.to_dict(only = ("id","name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")), 200)
+        return make_response(one_trail.to_dict(only = ("id","name", "image","altitude", "description", "difficulty", "distance", "location", "trail_reviews", "image")), 200)
 
 api.add_resource(OneTrail, '/trails/<int:id>')    
 # #---TRAILS-----------------------------#

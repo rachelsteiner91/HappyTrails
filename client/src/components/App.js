@@ -47,13 +47,9 @@ function App() {
           <Route path="/safety-guidelines" component={Safety} /> */}
         </Routes>
 
-      
 
-    </div>
-  );
-}
 
-export default App;
+
 
 
 
