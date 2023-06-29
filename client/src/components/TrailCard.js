@@ -1,5 +1,4 @@
 import React from 'react'
-
 function TrailCard({ trail, onAddFavorite, onRemoveFavorite, favorites }) {
     const { id, name, altitude, difficulty } = trail;
 
@@ -18,7 +17,10 @@ function TrailCard({ trail, onAddFavorite, onRemoveFavorite, favorites }) {
             <h1>NAME:{name}</h1>
             <h1>ALTITUDE:{altitude}</h1>
             <h1>DIFFICULTY:{difficulty}</h1>
-            <button onClick={handleFavoriteClick}>{isFavorite ? "Remove from Favorites" : "Add to Favorites"}</button>
+            <Favorites trailId={id} />
+            <Link to={`/trails/${id}`}>
+            <h2>{name}</h2>
+            </Link>
         </ul>
     )
 }

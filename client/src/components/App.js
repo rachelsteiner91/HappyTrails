@@ -1,47 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import TrailList from './TrailList';
-import Safety from './Safety';
-import LoginForm from './LoginForm';
-import NavBar from './NavBar';
-import Search from './Search';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+
+import { Routes, Route } from "react-router-dom";
+
+import NavBar from "./NavBar";
+import Search from "./Search";
+import TrailList from "./TrailList";
+import Favorites from "./Favorites";
+import Auth from "./Auth";
+import Safety from "./Safety";
+import AdventurerContainer from "./AdventurerContainer";
 
 function App() {
-    const [trails, setTrails] = useState([])
-    const [favorites, setFavorites] = useState([]) 
-    const [search, setSearch] = useState("");
+  const [adventurers, setAdventurers] = useState([]);
+  const [trails, setTrails] = useState([]); // Initialize to empty array
 
-    //fetch the trails from the database
-    useEffect(() => {
-        fetch("http://localhost:4000/trails")
-            .then(r => r.json())
-            .then(setTrails)
-    }, [])
+  useEffect(() => {
+    getTrails();
+    getAdventurers();
+  }, []);
 
-    const addFavorite = (trailId) => {
-        setFavorites([...favorites, trailId]);
-    };
+  function getTrails() {
+    fetch('/trails')
+      .then(res => res.json())
+      .then(data => setTrails(data))
+      .catch((error) => console.error('Error:', error));
+  }
 
-    const removeFavorite = (trailId) => {
-        setFavorites(favorites.filter((id) => id !== trailId));
-    };
+  function getAdventurers() {
+    fetch('/adventurers')
+      .then(res => res.json())
+      .then(data => setAdventurers(data))
+      .catch((error) => console.error('Error:', error));
+  }
 
-    const filteredTrails = trails.filter(trail => trail.name.toLowerCase().includes(search.toLowerCase()));
+  return (
+    <div>
 
-    return (
-        <div>
-            <NavBar/>
-            <Search setSearch={setSearch} search={search}/>
-            <Routes>
-                <Route path='/trails' element={<TrailList trails={filteredTrails} onAddFavorite={addFavorite} onRemoveFavorite={removeFavorite} favorites={favorites}/>}/>
-                <Route path='/safety' element={<Safety/>}/>
-                <Route path='/login' element={<LoginForm/>}/>
-            </Routes>
-        </div>
-    );
-}
+      
+        <NavBar />
+        <Search />
+        <Routes>
+          <Route path="/trails" element={<TrailList trails={trails}/>} />
+          <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
+          {/* <Route path="/favorites" element={Favorites} />
+          <Route path="/profile" render={(props) => <Auth {...props} adventurers={adventurers} />} />
+          <Route path="/safety-guidelines" component={Safety} /> */}
+        </Routes>
 
-export default App;
 
 
 
