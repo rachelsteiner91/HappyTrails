@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Favorites from './Favorites'
 import { Link } from "react-router-dom"
 
@@ -20,8 +21,8 @@ function TrailCard({ trail }) {
             </li>
         </ul>
     )
-
 }
 
 export default TrailCard;
+
 
