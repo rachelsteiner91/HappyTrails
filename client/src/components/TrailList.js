@@ -2,7 +2,7 @@ import React from 'react'
 import TrailCard from './TrailCard'
 import { Box, Paper, styled } from '@mui/material'
 import Grid from '@mui/material/Grid';
-import { GridList } from '@material-ui/core';
+// import { GridList } from '@material-ui/core';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,6 +18,7 @@ function TrailList({trails}) {
   //   <TrailCard
   //   key={trail.id}
   //   trail={trail}/>)); 
+  console.log(trails)
   
     const gridCards = trails.map((trail) => (
       <Grid item xs={2} sm={4} md={4} key={trail.id} trail={trail}>

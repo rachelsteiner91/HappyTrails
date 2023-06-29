@@ -3,13 +3,13 @@ import './App.css';
 import NavBar from "./NavBar";
 import TrailList from "./TrailList";
 import Search from "./Search"
+// import Safety from "./Safety"
+import Auth from "./Auth"
+import AddReview from "./AddReview"
+import HikedTrailsList from "./HikedTrailsList"
 import {Routes, Route } from 'react-router-dom'
 import { Box, Container } from '@mui/material';
 import { search } from '@material-ui/icons';
-
-import Favorites from "./Favorites";
-import Auth from "./Auth";
-import Safety from "./Safety";
 import AdventurerContainer from "./AdventurerContainer";
 
 function App() {
@@ -43,15 +43,17 @@ function App() {
         </Box>
         <Box>
           </Box>
+        <TrailList trails={trails}/>
         <Routes>
-          <Route path="/trails" element={<TrailList trails={trails}/>} />
+          <Route path="/home" element={<TrailList trails={trails}/>} />
+          {/* <Route path="/safety" element={<Safety />} /> */}
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/trail_reviews" element={<AddReview />} />
           <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
-          {/* <Route path="/favorites" element={Favorites} />
-          <Route path="/profile" render={(props) => <Auth {...props} adventurers={adventurers} />} />
-          <Route path="/safety-guidelines" component={Safety} /> */}
+          <Route path="/trails" element={<TrailList trails={trails}/>} />
+          <Route path="/hiked_trails" element={<HikedTrailsList />} />
         </Routes>
-
-
-
+    </div>
+  )}
 
 export default App;
