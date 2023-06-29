@@ -135,6 +135,7 @@ class Trail(db.Model, SerializerMixin):
     distance = db.Column(db.String)
     altitude = db.Column(db.String)
     description = db.Column(db.String)
+    image = db.Column(db.String)
 
     #RELATIONSHIPS
     # A Trail has many hikes (hiked_trails)
