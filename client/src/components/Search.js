@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, InputBase } from '@mui/material'
+import { Box, InputBase, Toolbar } from '@mui/material'
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -66,16 +66,25 @@ function Search({setSearch, search}) {
 // </div>
 //     </div>
 
-    <Box>
-      <SearchBar>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-      </SearchBar>
+    <Box
+    sx={{
+      backgroundColor: 'primary.dark',
+      '&:hover': {
+        backgroundColor: 'primary.main',
+        opacity: [0.9, 0.8, 0.7],
+      },
+    }}>
+      <Toolbar>
+        <SearchBar>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+        </SearchBar>
+      </Toolbar>
     </Box>
   )
 }
