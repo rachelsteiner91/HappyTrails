@@ -47,64 +47,58 @@ def index():
 # # Views go here!
 #-------SIGNUP-------------#
 class Signup(Resource):
-     def post(self):
-         data = request.get_json()
-         new_adventurer = Adventurer(
-             name = data.get('name'),
-             username = data.get('username'),
-             email = data.get('email'),
-             bio = data.get('bio'),
-             image = data.get('image'))
-         new_adventurer.password_hash = data.get('password')
-         db.session.add(new_adventurer)
-         db.session.commit()
-         session['adventurer_id'] = new_adventurer.id
-         return make_response(new_adventurer.to_dict(), 201)
+    def post(self):
+        data = request.get_json()
+        new_adventurer = Adventurer(
+            name = data.get('name'),
+            username = data.get('username'),
+            email = data.get('email'),
+            bio = data.get('bio'),
+            image = data.get('image'))
+        new_adventurer.password_hash = data.get('password')
+        db.session.add(new_adventurer)
+        db.session.commit()
+        session['adventurer_id'] = new_adventurer.id
+        return make_response(new_adventurer.to_dict(), 201)
 
 api.add_resource(Signup, '/signup') 
         
- #-----LOGIN-------------#
-class Login(Resource):
-     def post(self):
-         try:
-             data = request.get_json()
-             adventurer = Adventurer.query.filter_by(
-                 username = data.get('username')).first()
-             if adventurer.authenticate(data.get('password')):
-                 session['adventurer_id'] = adventurer.id
-                 return make_response(adventurer.to_dict(), 200)
-         except:
-             return make_response({"401": "Unauthorized"},401)  
+#-----LOGIN-------------#
+class Login(Resource):4
+    def post(self):
+        try:
+            data = request.get_json()
+            adventurer = Adventurer.query.filter_by(
+                username = data.get('username')).first()
+            if adventurer.authenticate(data.get('password')):
+                session['adventurer_id'] = adventurer.id
+                return make_response(adventurer.to_dict(), 200)
+        except:
+            return make_response({"401": "Unauthorized"},401)  
             
 api.add_resource(Login, '/login')             
 
 # #-----LOGOUT------------#
 class Logout(Resource):
-     def delete(self):
-         session['adventurer_id'] = None
-         return make_response({"204":"No Content"},204)
+    def delete(self):
+        session['adventurer_id'] = None
+        return make_response({"204":"No Content"},204)
         
 
 api.add_resource(Logout, '/logout')       
- #------AUTHORIZE SESSION----------#
+#------AUTHORIZE SESSION----------#
 
 class AuthorizeSession(Resource):
     def get(self):
-         try:
-             adventurer = Adventurer.query.filter_by(
+        try:
+            adventurer = Adventurer.query.filter_by(
                 Adventurer.id == session.get('adventurer_id')).first()
-             return make_response(adventurer.to_dict(), 200)
-         except:
-             return make_response({}, 401)
+            return make_response(adventurer.to_dict(), 200)
+        except:
+            return make_response({}, 401)
         
 
-               
-   
-  
-
 api.add_resource(AuthorizeSession, '/authorize_session')
-     
-
 
 #---ADVENTURERS-----------------------------#
 #GET /adventurers
@@ -122,7 +116,6 @@ class Adventurers(Resource):
                 200
             )
             return res
-          
 
 api.add_resource(Adventurers, '/adventurers')
 #POST /adventurers
@@ -171,7 +164,7 @@ class OneAdventurer(Resource):
             200
         )
         return res
- 
+
 
         
 #PATCH /adventurers/<int:id>
@@ -300,21 +293,21 @@ class OneHikedTrail(Resource):
 
 # PATCH /hiked_trails/<int:id>
     # toggle hike status of a trail (favorites)
-    def patch(self, id):
-        data = request.get_json()
-        hiked = data.get('hiked', None)
+#     def patch(self, id):
+#         data = request.get_json()
+#         hiked = data.get('hiked', None)
 
-        if hiked is None:
-            return {"400": "Bad Request"}, 400
+#         if hiked is None:
+#             return {"400": "Bad Request"}, 400
 
-        hiked_trail = HikedTrail.query.filter_by(id=id).first()
-        if not hiked_trail:
-            return {"404": "Hiked Trail Not Found"}, 404
+#         hiked_trail = HikedTrail.query.filter_by(id=id).first()
+#         if not hiked_trail:
+#             return {"404": "Hiked Trail Not Found"}, 404
 
-        hiked_trail.hiked = hiked
-        db.session.commit()
+#         hiked_trail.hiked = hiked
+#         db.session.commit()
 
-        return make_response(hiked_trail.to_dict(), 200)
+#         return make_response(hiked_trail.to_dict(), 200) #
 
 #DELETE /hiked_trails/<int:id>
 #delete trails user has hiked
