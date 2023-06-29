@@ -227,13 +227,14 @@ api.add_resource(OneAdventurer, "/adventurers/<int:id>")
 class Trails(Resource):
     def get(self):
         trails = Trail.query.all()
-        trails_dict = [trail.to_dict(only = ("id","name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")) for trail in trails]
+        trails_dict = [trail.to_dict(only = ("id","name", "image", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")) for trail in trails]
         return make_response(trails_dict, 200)
     def post(self): #----add to READMe----#
         data = request.get_json()
         try:
             new_trail = Trail(
                 name = data.get('name'),
+                image = data.get('image'),
                 difficulty = data.get('difficulty'),
                 location_id = data.get('location_id'),
                 distance = data.get('distance'),
@@ -257,7 +258,7 @@ class OneTrail(Resource):
         if not one_trail:
             return make_response({"404": "Trail Not Found"}, 404)
         
-        return make_response(one_trail.to_dict(only = ("id","name", "altitude", "description", "difficulty", "distance", "location", "trail_reviews")), 200)
+        return make_response(one_trail.to_dict(only = ("id","name", "image","altitude", "description", "difficulty", "distance", "location", "trail_reviews", "image")), 200)
 
 api.add_resource(OneTrail, '/trails/<int:id>')    
 # #---TRAILS-----------------------------#
@@ -297,6 +298,24 @@ class OneHikedTrail(Resource):
         )
         return res
 
+# PATCH /hiked_trails/<int:id>
+    # toggle hike status of a trail (favorites)
+    def patch(self, id):
+        data = request.get_json()
+        hiked = data.get('hiked', None)
+
+        if hiked is None:
+            return {"400": "Bad Request"}, 400
+
+        hiked_trail = HikedTrail.query.filter_by(id=id).first()
+        if not hiked_trail:
+            return {"404": "Hiked Trail Not Found"}, 404
+
+        hiked_trail.hiked = hiked
+        db.session.commit()
+
+        return make_response(hiked_trail.to_dict(), 200)
+
 #DELETE /hiked_trails/<int:id>
 #delete trails user has hiked
     def delete(self, id):
@@ -315,7 +334,6 @@ api.add_resource(OneHikedTrail, "/hiked_trails/<int:id>")
 
 
 # #---HIKED TRAILS-----------------------------#
-
 
 
 #---TRAIL REVIEWS-----------------------------#

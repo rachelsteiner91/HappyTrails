@@ -1,21 +1,17 @@
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import {useFormik} from "formik";
 import * as yup from "yup";
 import {useNavigate} from "react-router-dom"
 
 //should be adventurer form
-function LoginForm(){
-
+function Authorization(){
+    const [signup, setSignup] = useState(true)
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
-    //create schema:
-    //name required
-    //username
-    //email required
-    //password
-    //bio
-    //image
+    const toggleSignup = () => setSignup(prev => !prev);
+     
     const schema = yup.object().shape({
         name: yup.string().required("Name is required."),
         username: yup.string().required("Username is required"),
@@ -41,7 +37,7 @@ function LoginForm(){
         validationSchema: schema,
       //submit callback
         onSubmit: (values) => {
-            fetch("/login", {
+            fetch(signup ? "/signup" : "/login", {
                 method: "POST",
                 headers: {
                     "content-type" : "application/json"
@@ -50,8 +46,8 @@ function LoginForm(){
             }).then (res => {
                 if(res.ok){
                     res.json().then(adventurer => {
-                        console.log(adventurer)
-                        navigate("/adventurers/${adventurer.id}")
+                        
+                        navigate("/")
                     })
                 } else{
                     console.log("oops")
@@ -64,6 +60,7 @@ function LoginForm(){
 
     return (
         <section>
+            { signup ? (
             <form onSubmit={formik.handleSubmit}>
             <label> Name:
             <input 
@@ -132,12 +129,46 @@ function LoginForm(){
             <h3>{formik.errors.image}</h3>
             ) : ("")}
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Take A Hike!" />
             </form>
+            ) : (
+            <form onSubmit={formik.handleSubmit}>
+                <label> Username:
+                <input
+                type="text"
+                name="username" 
+                onChange={formik.handleChange}
+                value={formik.values.username}
+                onBlur={formik.handleBlur}/>
+                {formik.touched.username && formik.errors.username ? (
+                <h3>{formik.errors.username}</h3>
+                ) : ("")}
+                </label>
+                <label> Password
+                <input 
+                 type="password" 
+                 name="password" 
+                 onChange={formik.handleChange}
+                 value={formik.values.password}
+                 onBlur={formik.handleBlur}/>
+                {formik.touched.password && formik.errors.password ? (
+                 <h3>{formik.errors.password}</h3>
+                 ) : ("")}
+                </label>
+                <input type="submit" value="Log In" className="button" />
+				{error ? <label style={{ color: "red" }}>{error}</label> : ""}
+            </form>
+            )}
+            <section>
+				<p>{signup ? "Already have an account?" : "Not a member?"}</p>
+				<button className="button" onClick={toggleSignup}>
+					{signup ? "Login" : "Sign Up"}
+				</button>
+			</section>
         </section>
     )
 }
 
-export default LoginForm;
+export default Authorization;
 
 
