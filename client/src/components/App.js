@@ -6,13 +6,13 @@ import NavBar from "./NavBar";
 import Search from "./Search";
 import TrailList from "./TrailList";
 import Favorites from "./Favorites";
-import Authorization from "./Authorization";
+import Auth from "./Auth";
 import Safety from "./Safety";
-
+import AdventurerContainer from "./AdventurerContainer";
 
 function App() {
   const [adventurers, setAdventurers] = useState([]);
-  const [trails, setTrails] = useState([]);
+  const [trails, setTrails] = useState([]); // Initialize to empty array
 
   useEffect(() => {
     getTrails();
@@ -22,14 +22,15 @@ function App() {
   function getTrails() {
     fetch('/trails')
       .then(res => res.json())
-      .then(data => setTrails(data));
-
+      .then(data => setTrails(data))
+      .catch((error) => console.error('Error:', error));
   }
 
   function getAdventurers() {
     fetch('/adventurers')
       .then(res => res.json())
-      .then(data => setAdventurers(data));
+      .then(data => setAdventurers(data))
+      .catch((error) => console.error('Error:', error));
   }
 
   return (
@@ -38,15 +39,12 @@ function App() {
       
         <NavBar />
         <Search />
-        <TrailList trails={trails} />
         <Routes>
-          <Route exact path="/authorization" element={<Authorization/>} />
-
-
-
-          <Route exact path="/favorites" component={Favorites} />
-          <Route exact path="/profile" render={(props) => <Authorization {...props} adventurers={adventurers} />} />
-          <Route exact path="/safety-guidelines" component={Safety} />
+          <Route path="/trails" element={<TrailList trails={trails}/>} />
+          <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
+          {/* <Route path="/favorites" element={Favorites} />
+          <Route path="/profile" render={(props) => <Auth {...props} adventurers={adventurers} />} />
+          <Route path="/safety-guidelines" component={Safety} /> */}
         </Routes>
 
       
