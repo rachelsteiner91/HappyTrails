@@ -1,63 +1,50 @@
-import React, { useEffect, useState } from "react";
-
-import { Routes, Route } from "react-router-dom";
-
-import NavBar from "./NavBar";
-import Search from "./Search";
-import TrailList from "./TrailList";
-import Favorites from "./Favorites";
-import Authorization from "./Authorization";
-import Safety from "./Safety";
-
-
+import React, { useState, useEffect } from 'react';
+import TrailList from './TrailList';
+import Safety from './Safety';
+import LoginForm from './LoginForm';
+import NavBar from './NavBar';
+import Search from './Search';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
-  const [adventurers, setAdventurers] = useState([]);
-  const [trails, setTrails] = useState([]); // Initialize to empty array
+    const [trails, setTrails] = useState([])
+    const [favorites, setFavorites] = useState([]) 
+    const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    getTrails();
-    getAdventurers();
-  }, []);
+    //fetch the trails from the database
+    useEffect(() => {
+        fetch("http://localhost:4000/trails")
+            .then(r => r.json())
+            .then(setTrails)
+    }, [])
 
-  function getTrails() {
-    fetch('/trails')
-      .then(res => res.json())
-      .then(data => setTrails(data))
-      .catch((error) => console.error('Error:', error));
-  }
+    const addFavorite = (trailId) => {
+        setFavorites([...favorites, trailId]);
+    };
 
-  function getAdventurers() {
-    fetch('/adventurers')
-      .then(res => res.json())
-      .then(data => setAdventurers(data))
-      .catch((error) => console.error('Error:', error));
-  }
+    const removeFavorite = (trailId) => {
+        setFavorites(favorites.filter((id) => id !== trailId));
+    };
 
-  return (
-    <div>
+    const filteredTrails = trails.filter(trail => trail.name.toLowerCase().includes(search.toLowerCase()));
 
-      
-        <NavBar />
-        <Search />
-        <TrailList trails={trails} />
-        <Routes>
-          <Route exact path="/authorization" element={<Authorization/>} />
-
-
-
-          <Route exact path="/favorites" component={Favorites} />
-          <Route exact path="/profile" render={(props) => <Authorization {...props} adventurers={adventurers} />} />
-          <Route exact path="/safety-guidelines" component={Safety} />
-        </Routes>
-
-      
-
-    </div>
-  );
+    return (
+        <div>
+            <NavBar/>
+            <Search setSearch={setSearch} search={search}/>
+            <Routes>
+                <Route path='/trails' element={<TrailList trails={filteredTrails} onAddFavorite={addFavorite} onRemoveFavorite={removeFavorite} favorites={favorites}/>}/>
+                <Route path='/safety' element={<Safety/>}/>
+                <Route path='/login' element={<LoginForm/>}/>
+            </Routes>
+        </div>
+    );
 }
 
 export default App;
+
+
+
 
 
 
