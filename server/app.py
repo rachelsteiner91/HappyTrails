@@ -298,6 +298,24 @@ class OneHikedTrail(Resource):
         )
         return res
 
+# PATCH /hiked_trails/<int:id>
+    # toggle hike status of a trail (favorites)
+    def patch(self, id):
+        data = request.get_json()
+        hiked = data.get('hiked', None)
+
+        if hiked is None:
+            return {"400": "Bad Request"}, 400
+
+        hiked_trail = HikedTrail.query.filter_by(id=id).first()
+        if not hiked_trail:
+            return {"404": "Hiked Trail Not Found"}, 404
+
+        hiked_trail.hiked = hiked
+        db.session.commit()
+
+        return make_response(hiked_trail.to_dict(), 200)
+
 #DELETE /hiked_trails/<int:id>
 #delete trails user has hiked
     def delete(self, id):
@@ -316,7 +334,6 @@ api.add_resource(OneHikedTrail, "/hiked_trails/<int:id>")
 
 
 # #---HIKED TRAILS-----------------------------#
-
 
 
 #---TRAIL REVIEWS-----------------------------#
