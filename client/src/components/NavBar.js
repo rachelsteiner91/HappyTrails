@@ -6,31 +6,31 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 // import { Link, useNavigate, NavLink } from "react-router-dom"
 
-const pages = ['Explore', 'Safety', 'Shop'];
-const settings = ['Profile', 'Logout'];
+// const pages = ['Explore', 'Safety', 'Shop'];
+// const settings = ['Profile', 'Logout'];
 
 function NavBar() {
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  // const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenNavMenu = (event) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  // const handleCloseNavMenu = () => {
+  //   setAnchorElNav(null);
+  // };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
 
   return (
-    <div>
+    <div> Navigation
         <nav>
           <NavLink exact to = "/home"> Home </NavLink>
           <NavLink exact to = "/safety"> Safety </NavLink>

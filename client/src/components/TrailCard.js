@@ -10,7 +10,7 @@ import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlin
 //add ternary for button to display depending on if hiked or not
 
 function TrailCard({ trail }) {
-    const { id, name, altitude, difficulty, description } = trail;
+    const { id, name, altitude, difficulty, description, image } = trail;
     
     return (
       <Card sx={{ maxWidth: 345 }}>
@@ -18,7 +18,7 @@ function TrailCard({ trail }) {
         <CardMedia
           component="img"
           height="140"
-          image="https://placedog.net/640/480?r"
+          image={image}
           alt={name}
         />
         <CardContent>
