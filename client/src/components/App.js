@@ -7,6 +7,10 @@ import {Routes, Route } from 'react-router-dom'
 import { Box, Container } from '@mui/material';
 import { search } from '@material-ui/icons';
 
+import Favorites from "./Favorites";
+import Auth from "./Auth";
+import Safety from "./Safety";
+import AdventurerContainer from "./AdventurerContainer";
 
 function App() {
   const [adventurers, setAdventurers] = useState([]);
@@ -38,13 +42,16 @@ function App() {
           <Search />
         </Box>
         <Box>
-          <TrailList trails={trails} />
-        </Box>
+          </Box>
         <Routes>
-          {/* <Route exact path="/authorization" element={<Authorization/>} /> */}
+          <Route path="/trails" element={<TrailList trails={trails}/>} />
+          <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
+          {/* <Route path="/favorites" element={Favorites} />
+          <Route path="/profile" render={(props) => <Auth {...props} adventurers={adventurers} />} />
+          <Route path="/safety-guidelines" component={Safety} /> */}
         </Routes>
-    </div>
-  );
-}
+
+
+
 
 export default App;

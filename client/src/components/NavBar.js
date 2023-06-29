@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom"
 import { AppBar, Avatar, Tooltip, Button, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem } from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link, useNavigate, NavLink } from "react-router-dom"
 
 const pages = ['Explore', 'Safety', 'Shop'];
 const settings = ['Profile', 'Logout'];

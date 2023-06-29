@@ -33,7 +33,7 @@ class Adventurer(db.Model, SerializerMixin):
     
     @password_hash.setter
     def password_hash(self, password):
-        password_hash = bcrypt.generate.password_hash(password.encode('utf-8'))
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):
@@ -135,6 +135,7 @@ class Trail(db.Model, SerializerMixin):
     distance = db.Column(db.String)
     altitude = db.Column(db.String)
     description = db.Column(db.String)
+    image = db.Column(db.String)
 
     #RELATIONSHIPS
     # A Trail has many hikes (hiked_trails)
