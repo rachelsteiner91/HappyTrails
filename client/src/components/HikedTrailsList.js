@@ -1,80 +1,73 @@
-import React, {useEffect} from 'react';
-import TrailCard from './TrailCard';
+import React, { useState, useEffect } from 'react';
 
-function HikedTrailsList(props)  {
-    console.log(props)
-    return(
-      <div>Hi</div>
+const HikedTrailsList = ({ adventurerUsername }) => {
+  const [hikedTrails, setHikedTrails] = useState([]);
+  const [trailName, setTrailName] = useState("");
 
-    )}
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         trails: [],
-    //         error: null,
-    //         isLoading: false,
-    //     };
-    // // }
+  // Function to fetch the hiked trails for the given adventurer
+  const fetchHikedTrails = async () => {
+    const response = await fetch(`/hiked_trails?adventurer_username=${adventurerUsername}`);
+    const data = await response.json();
 
-    // useEffect(() => {
-    //   this.setState({ isLoading: true });
-    //   fetch('/hiked_trails')
-    //       .then(response => response.json())
-    //       .then(data => this.setState({ trails: data, isLoading: false }))
-    //       .catch(error => this.setState({ error, isLoading: false }));
+    if (response.ok) {
+      setHikedTrails(data);
+    } else {
+      console.error("Error fetching hiked trails: ", data.error);
+    }
+  };
 
-    // }, [])
+  // Function to handle form submission and add a new hiked trail
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    
+    const response = await fetch('/hiked_trails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        adventurer_username: adventurerUsername,
+        trail_name: trailName
+      })
+    });
 
-    // handleHiked = (trail) => {
-    //   const updatedHikedStatus = !trail.hiked;
-  
-    //   fetch(`/hiked_trails/${trail.id}`, {
-    //     method: 'PATCH',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({hiked: updatedHikedStatus}),
-    //   })
-    //   .then(() => {
-    //       this.setState(prevState => ({
-    //           trails: prevState.trails.map(t =>
-    //               t.id !== trail.id ? t : { ...t, hiked: updatedHikedStatus }
-    //           )
-    //       }));
-    //   })
-    //   .catch((error) => {
-    //       console.error('Error:', error);
-    //   });
-    // }
-  
+    const data = await response.json();
 
-    
-    //     const { trails, isLoading, error } = this.state;
+    if (response.ok) {
+      setHikedTrails([...hikedTrails, data]);
+      setTrailName("");
+    } else {
+      console.error("Error adding hiked trail: ", data.error);
+    }
+  };
 
-    //     if (isLoading) {
-    //         return <p>Loading ...</p>;
-    //     }
+  // Load the hiked trails when the component mounts
+  useEffect(() => {
+    fetchHikedTrails();
+  }, []);
 
-    //     if (error) {
-    //         return <p>{error.message}</p>;
-    //     }
+  return (
+    <div>
+      <h1>Hiked Trails</h1>
 
-    //     return (
-    //         <div>
-    //             <h2>Hiked Trails</h2>
-    //             {trails.map((trail) => (
-    //                 <div key={trail.id}>
-    //                     <TrailCard trail={trail} />
-    //                     <button onClick={() => this.handleHiked(trail)}>
-    //                         {trail.hiked ? "Not Hiked" : "Hiked"}
-    //                     </button>
-    //                 </div>
-    //             ))}
-    //         </div>
-    //     );
-    // }
+      {/* List of hiked trails */}
+      {hikedTrails.map(trail => (
+        <div key={trail.id}>
+          <h2>{trail.name}</h2>
+          {/* Other trail details*/}
+        </div>
+      ))}
 
+      {/* Form to add a new hiked trail */}
+      <form onSubmit={handleSubmit}>
+        <label>
+          <h1>Trail name:</h1>
+          <input type="text" value={trailName} onChange={e => setTrailName(e.target.value)} required />
+        </label>
+        <button type="submit">Mark Trail as Hiked</button>
+      </form>
+    </div>
+  );
+};
 
 export default HikedTrailsList;
