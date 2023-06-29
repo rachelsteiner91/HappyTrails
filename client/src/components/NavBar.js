@@ -36,7 +36,7 @@ function NavBar() {
           <NavLink exact to = "/safety"> Safety </NavLink>
           <NavLink exact to = "/trail_reviews"> New Review </NavLink>
           <NavLink exact to = "/adventurers"> Adventure Profile </NavLink>
-          <NavLink exact to = "/trails"> Trails </NavLink>
+          <NavLink exact to = "/trails"> Take a Hike </NavLink>
           <NavLink exact to = "/hiked_trails"> Your Hiked Trails </NavLink>
           <NavLink exact to = "/auth"> Log In </NavLink>
         </nav>

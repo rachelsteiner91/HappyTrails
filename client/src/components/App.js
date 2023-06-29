@@ -3,7 +3,7 @@ import './App.css';
 import NavBar from "./NavBar";
 import TrailList from "./TrailList";
 import Search from "./Search"
-// import Safety from "./Safety"
+import Safety from "./Safety"
 import Auth from "./Auth"
 import AddReview from "./AddReview"
 import HikedTrailsList from "./HikedTrailsList"
@@ -52,14 +52,14 @@ function App() {
         </Box>
         <Box>
   
-        <TrailList trails={filteredTrails}/>
+        {/* <TrailList trails={filteredTrails}/> */}
         <Routes>
           <Route path="/home" element={<TrailList trails={filteredTrails}/>}/>
-          {/* <Route path="/safety" element={<Safety />} /> */}
+          <Route path="/safety" element={<Safety />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/trail_reviews" element={<AddReview />} />
           <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
-          {/* <Route path="/trails" element={<TrailList trails={trails}/>} /> */}
+          <Route path="/trails" element={<TrailList trails={trails}/>} />
           <Route path="/hiked_trails" element={<HikedTrailsList />} />
         </Routes>
         </Box>
