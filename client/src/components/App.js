@@ -50,7 +50,7 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/trail_reviews" element={<AddReview />} />
           <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
-          <Route path="/trails" element={<TrailList trails={trails}/>} />
+          {/* <Route path="/trails" element={<TrailList trails={trails}/>} /> */}
           <Route path="/hiked_trails" element={<HikedTrailsList />} />
         </Routes>
     </div>
