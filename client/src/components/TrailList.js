@@ -21,8 +21,10 @@ function TrailList({trails}) {
   
     const gridCards = trails.map((trail) => (
       <Grid item xs={2} sm={4} md={4} key={trail.id} trail={trail}>
-        <Item><TrailCard key={trail.id} trail={trail}/></Item>
+        <TrailCard key={trail.id} trail={trail}/>
+        {/* <Item><TrailCard key={trail.id} trail={trail}/></Item> */}
       </Grid>
+ 
       )); 
   return (
     <Box sx={{ flexGrow: 1 }}>
