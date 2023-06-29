@@ -1,10 +1,17 @@
 import React from 'react'
-import Favorites from './Favorites'
-import { Link } from "react-router-dom"
-
-function TrailCard({ trail }) {
+function TrailCard({ trail, onAddFavorite, onRemoveFavorite, favorites }) {
     const { id, name, altitude, difficulty } = trail;
-    
+
+    const isFavorite = favorites.includes(id);
+
+    const handleFavoriteClick = () => {
+        if (isFavorite) {
+            onRemoveFavorite(id);
+        } else {
+            onAddFavorite(id);
+        }
+    };
+
     return (
         <ul className="trailcard" id={id}>
             <h1>NAME:{name}</h1>
@@ -16,8 +23,8 @@ function TrailCard({ trail }) {
             </Link>
         </ul>
     )
-
 }
 
 export default TrailCard;
+
 

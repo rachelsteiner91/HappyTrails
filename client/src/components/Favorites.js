@@ -20,8 +20,9 @@ const Favorites = ({ trailId }) => {
         const response = await fetch(`/api/adventurers/${adventurerId}`);
         // Parse the JSON response from the API
         const data = await response.json();
-        // Update the isFavorite state variable based on whether the adventurer's favoriteTrails array includes the current trailId
-        setIsFavorite(data.favoriteTrails.includes(trailId));
+        // Update the isFavorite state variable based on whether the adventurer's favoriteTrails array includes the current trailId + Error handling
+        setIsFavorite(data.favoriteTrails ? data.favoriteTrails.includes(trailId) : false);
+
     };
 
     // Define an asynchronous function to toggle the favorite status
