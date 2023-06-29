@@ -5,6 +5,7 @@ import TrailList from "./TrailList";
 import {Routes, Route } from 'react-router-dom'
 import { Box, Container } from '@mui/material';
 
+
 function App() {
   const [adventurers, setAdventurers] = useState([]);
   const [trails, setTrails] = useState([]); // Initialize to empty array
