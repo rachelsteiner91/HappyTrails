@@ -6,17 +6,20 @@ import NavBar from "./NavBar";
 import Search from "./Search";
 import TrailList from "./TrailList";
 import Favorites from "./Favorites";
-import Auth from "./Auth";
+import SignupForm from "./SignupForm";
 import Safety from "./Safety";
 import AdventurerContainer from "./AdventurerContainer";
-
+import LoginForm from "./LoginForm";
+import AddReview from "./AddReview";
 function App() {
   const [adventurers, setAdventurers] = useState([]);
   const [trails, setTrails] = useState([]); // Initialize to empty array
-
+  const [adventurer, setAdventurer] = useState(null)
+ 
   useEffect(() => {
     getTrails();
     getAdventurers();
+    getAdventurer();
   }, []);
 
   function getTrails() {
@@ -33,12 +36,28 @@ function App() {
       .catch((error) => console.error('Error:', error));
   }
 
+  function getAdventurer() {
+    fetch('/authorize_session')
+      .then(response => {
+      if (response.ok) {
+        response.json().then((adventurer) => setAdventurer(adventurer))}
+       
+      else  {setAdventurer(null)} 
+      })
+  }
+
+   function updateAdventurer(adventurer) {
+        setAdventurer(adventurer)
+   } 
+
   return (
     <div>
 
       
-        <NavBar />
+        <NavBar adventurer={adventurer} updateAdventurer={updateAdventurer}/>
         <Search />
+        <SignupForm updateAdventurer={updateAdventurer}/> 
+        <AddReview trails={trails}/>
         <Routes>
           <Route path="/trails" element={<TrailList trails={trails}/>} />
           <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />

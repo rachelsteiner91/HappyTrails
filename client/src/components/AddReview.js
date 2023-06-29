@@ -45,7 +45,7 @@ function AddReview() {
               if(res.ok){
                   res.json().then(adventurer => {
                       console.log(adventurer)
-                      navigate("/trail_reviews/${adventurer.id}")
+                      navigate("/app")
                   })
               } else{
                   console.log("oops")

@@ -10,9 +10,7 @@ const Favorites = ({ trailId }) => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     // Use the useEffect hook to call the fetchFavoriteStatus function when the component mounts or when the trailId or adventurerId changes
-    useEffect(() => {
-        fetchFavoriteStatus();
-    }, [trailId, adventurerId]);
+    
 
     // Define an asynchronous function to fetch the current favorite status from the API
     const fetchFavoriteStatus = async () => {

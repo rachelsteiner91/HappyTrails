@@ -66,23 +66,24 @@ api.add_resource(Signup, '/signup')
  #-----LOGIN-------------#
 class Login(Resource):
      def post(self):
-         try:
-             data = request.get_json()
-             adventurer = Adventurer.query.filter_by(
-                 username = data.get('username')).first()
-             if adventurer.authenticate(data.get('password')):
-                 session['adventurer_id'] = adventurer.id
-                 return make_response(adventurer.to_dict(), 200)
-         except:
-             return make_response({"401": "Unauthorized"},401)  
+        data = request.get_json()
+        adventurer = Adventurer.query.filter_by(username=data.get('username')).first()
+
+        password = request.get_json()['password']
+
+        if adventurer.authenticate(password):
+            session['adventurer_id'] = adventurer.id
+            return adventurer.to_dict(), 200
+        
+        return {'Invalid Credentials'}, 401
             
 api.add_resource(Login, '/login')             
 
 # #-----LOGOUT------------#
 class Logout(Resource):
-     def delete(self):
+     def get(self):
          session['adventurer_id'] = None
-         return make_response({"204":"No Content"},204)
+         return make_response('',204)
         
 
 api.add_resource(Logout, '/logout')       
@@ -92,7 +93,7 @@ class AuthorizeSession(Resource):
     def get(self):
          try:
              adventurer = Adventurer.query.filter_by(
-                Adventurer.id == session.get('adventurer_id')).first()
+                id=session.get('adventurer_id')).first()
              return make_response(adventurer.to_dict(), 200)
          except:
              return make_response({}, 401)
@@ -324,7 +325,7 @@ api.add_resource(OneHikedTrail, "/hiked_trails/<int:id>")
 class TrailReviews(Resource):
     def get(self):
         # trail_review = TrailReview.query.all()
-        trail_reviews_dict = [t.to_dict(only = ("review", "adventurer_id", "trail_id")) for t in TrailReview.query.all()]
+        trail_reviews_dict = [t.to_dict(only = ("review", "adventurer.name", "trail.name")) for t in TrailReview.query.all()]
         return make_response(trail_reviews_dict, 200)
     #POST 
     def post(self):
@@ -335,16 +336,16 @@ class TrailReviews(Resource):
         data = request.get_json()
         #this gives us the row of the adventurer
         #filter_by(column_name = data[what you grab from the front end])
-        adventurer_row = Adventurer.query.filter_by(username == data["adventurer_username"]).first()
+        adventurer = Adventurer.query.filter_by(username = data["username"]).first()
         #give us what is stored in the id column
-        adventurer_id = adventurer_row.id
+        
 
         trail_row = Trail.query.filter_by(name = data['trail_name']).first()
-        trail_id = trail_row.id
+        trail_id = Trail.query.filter_by(id = id).first()
 
 
 
-        trail_name = Trail.query.filter_by(name == name).first()
+        trail_name = Trail.query.filter_by(name = name).first()
         #1. query adventurer filter_by()
         #2. trail
 
@@ -352,12 +353,12 @@ class TrailReviews(Resource):
         try:
             new_trail_review = TrailReview(
                 review = data.get('review'),
-                adventurer_id= adventurer_id,
+                adventurer= adventurer,
                 trail_id= trail_id
             )
             db.session.add(new_trail_review)
             db.session.commit()
-            return make_response(new_trail_review.to_dict(only = ("review", "adventurer_id", "trail_id")), 201)
+            return make_response(new_trail_review.to_dict(only = ("review", "adventurer", "trail_id")), 201)
         except ValueError:
             return ({'error': '400: Validation error'}, 400)
 

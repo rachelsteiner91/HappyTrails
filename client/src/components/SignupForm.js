@@ -1,21 +1,17 @@
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import {useFormik} from "formik";
 import * as yup from "yup";
 import {useNavigate} from "react-router-dom"
-
+import LoginForm from "./LoginForm";
 //should be adventurer form
-function Auth(){
-
+function SignupForm({updateAdventurer}){
+    const [signup, setSignup] = useState(true)
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
-    //create schema:
-    //name required
-    //username
-    //email required
-    //password
-    //bio
-    //image
+    const toggleSignup = () => setSignup(prev => !prev);
+     
     const schema = yup.object().shape({
         name: yup.string().required("Name is required."),
         username: yup.string().required("Username is required"),
@@ -40,8 +36,8 @@ function Auth(){
       //yup schema for validation
         validationSchema: schema,
       //submit callback
-        onSubmit: (values) => {
-            fetch("/login", {
+        onSubmit: (values, actions) => {
+            fetch(signup ? "/signup" : "/login", {
                 method: "POST",
                 headers: {
                     "content-type" : "application/json"
@@ -50,11 +46,12 @@ function Auth(){
             }).then (res => {
                 if(res.ok){
                     res.json().then(adventurer => {
-                        console.log(adventurer)
-                        navigate("/adventurers/${adventurer.id}")
+                    actions.resetForm() 
+                    updateAdventurer(adventurer) 
+                        navigate("/")
                     })
                 } else{
-                    console.log("oops")
+                    res.json().then((error) => setError(error.message));
                 }
             })
         }
@@ -64,6 +61,7 @@ function Auth(){
 
     return (
         <section>
+            {signup ? (
             <form onSubmit={formik.handleSubmit}>
             <label> Name:
             <input 
@@ -132,54 +130,19 @@ function Auth(){
             <h3>{formik.errors.image}</h3>
             ) : ("")}
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Take A Hike!" />
             </form>
+            ) : ( <LoginForm updateAdventurer={updateAdventurer}/>)}
+                <section>
+				<p>{signup ? "Already have an account?" : "Not a member?"}</p>
+				<button className="button" onClick={toggleSignup}>
+					{signup ? "Login" : "Sign Up"}
+				</button>
+			  </section>
         </section>
     )
 }
 
-export default Auth;
+export default SignupForm;
 
 
-  // const [signup, setSignup] = useState(true);
-	// const [error, setError] = useState(null);
-
-	// const navigate = useNavigate();
-	// const toggleSignup = () => setSignup((prev) => !prev)
-
-
-  // const formSchema = yup.object().shape({
-	// 	name: yup.string(),
-	// 	username: yup.string().required("Please enter a username"),
-	// 	password: yup.string().required("Please enter a password"),
-	// });
-
-
-  // const formik = useFormik({
-	// 	initialValues: {
-	// 		username: "",
-	// 		name: "",
-	// 		password: "",
-	// 	},
-  //   validationSchema: formSchema,
-	// 	onSubmit: (values, actions) => {
-  //     //only want to make a post to users if signup is true
-  //     fetch(signup ? "/signup" : "/login", {
-	// 			method: "POST",
-	// 			headers: {
-	// 				"content-type": "application/json",
-	// 			},
-	// 			body: JSON.stringify(values),
-	// 		}).then((res) => {
-	// 			if (res.ok) {
-	// 				res.json().then((data) => {
-	// 					actions.resetForm()
-	// 					updateUser(data)
-	// 					navigate("/")
-	// 				});
-	// 			} else {
-  //         res.json().then((err) => setError(err.message))
-  //         }
-  //       })
-  //   }
-  // })
