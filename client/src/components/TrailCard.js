@@ -1,17 +1,45 @@
 import React from 'react'
+import { Button, CardActionArea, CardActions } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import HikingIcon from '@mui/icons-material/Hiking';
+import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 
-function TrailCard({trail}) {
+//add ternary for button to display depending on if hiked or not
 
-const { id, name, altitude, difficulty } = trail;
- 
-  return (
-    <ul className="trailcard" id={id}>
-      <h1>NAME:{name}</h1>
-      <h1>ALTITUDE:{altitude}</h1>
-      <h1>DIFFICULTY:{difficulty}</h1> 
-     {/* <h1>REVIEWS:{[trail_reviews]}</h1> <---reviews need to be mapped */}
-      </ul>
-  )
+function TrailCard({ trail }) {
+    const { id, name, altitude, difficulty, description } = trail;
+    
+    return (
+      <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          height="140"
+          image="https://placedog.net/640/480?r"
+          alt={name}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h6" component="div">
+            {name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {difficulty}
+          </Typography>
+          {/* <Typography variant='h'>
+            {altitude}
+          </Typography> */}
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="medium" color="primary" alt="Mark as hiked">
+          <HikingIcon/> or <AddLocationAltOutlinedIcon/>
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }
 
-export default TrailCard
+export default TrailCard;
