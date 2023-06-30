@@ -36,14 +36,13 @@ function NavBar({updateAdventurer, adventurer}) {
           <NavLink exact to = "/trails"> Take a Hike </NavLink>
           <NavLink exact to = "/hiked_trails"> Your Hiked Trails </NavLink>
           <NavLink exact to = "/signup"> Signup </NavLink>
-          
+          <NavLink className="button" exact to = "/login"> Log In </NavLink>
           { adventurer ?
-                     <button onClick={handleLogOut} className="button" >
-                     <NavLink exact to = "/home"> Log Out </NavLink>
-                    </button> : 
-                     <button className="button" >
-                     <NavLink exact to = "/login"> Login </NavLink>
-                    </button>
+                      (<>                     
+                      <button onClick={handleLogOut} className="button" >
+                             Log Out
+                      </button>
+                      </>) : ''
           }
         </nav>
 
