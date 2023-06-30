@@ -64,9 +64,9 @@ function App() {
   
   return (
     <div>
-        <NavBar updateAdventurer={updateAdventurer} adventurer={adventurer}/>
+        <NavBar updateAdventurer={updateAdventurer} adventurer={adventurer} search={search} handleSearch={handleSearch}/>
         <Box>
-          <Search search={search} handleSearch={handleSearch}/>
+          {/* <Search search={search} handleSearch={handleSearch}/> */}
         </Box>
         <Box>
         <Routes>
