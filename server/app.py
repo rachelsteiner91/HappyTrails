@@ -80,7 +80,7 @@ api.add_resource(Login, '/login')
 
 # #-----LOGOUT------------#
 class Logout(Resource):
-     def delete(self):
+     def get(self):
          session['adventurer_id'] = None
          return make_response({"204":"No Content"},204)
         
@@ -92,7 +92,7 @@ class AuthorizeSession(Resource):
     def get(self):
          try:
              adventurer = Adventurer.query.filter_by(
-                Adventurer.id == session.get('adventurer_id')).first()
+              id = session.get('adventurer_id')).first()
              return make_response(adventurer.to_dict(), 200)
          except:
              return make_response({}, 401)
