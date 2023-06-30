@@ -247,3 +247,4 @@ function SignupForm({updateAdventurer}){
 
 
 export default SignupForm;
+

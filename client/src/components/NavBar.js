@@ -25,8 +25,6 @@ function NavBar({updateAdventurer, adventurer, search, handleSearch}) {
 });
 }
 
-  
-
   return (
     <div> Navigation
         <nav>
