@@ -66,15 +66,16 @@ api.add_resource(Signup, '/signup')
  #-----LOGIN-------------#
 class Login(Resource):
      def post(self):
-         try:
-             data = request.get_json()
-             adventurer = Adventurer.query.filter_by(
-                 username = data.get('username')).first()
-             if adventurer.authenticate(data.get('password')):
-                 session['adventurer_id'] = adventurer.id
-                 return make_response(adventurer.to_dict(), 200)
-         except:
-             return make_response({"401": "Unauthorized"},401)  
+        data = request.get_json()
+        adventurer = Adventurer.query.filter_by(username=data.get('username')).first()
+
+        password = request.get_json()['password']
+
+        if adventurer.authenticate(password):
+            session['adventurer_id'] = adventurer.id
+            return adventurer.to_dict(), 200
+        
+        return {'Invalid Credentials'}, 401
             
 api.add_resource(Login, '/login')             
 
