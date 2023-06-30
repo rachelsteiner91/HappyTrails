@@ -4,22 +4,25 @@ import NavBar from "./NavBar";
 import TrailList from "./TrailList";
 import Search from "./Search"
 import Safety from "./Safety"
-import Auth from "./Auth"
+import SignupForm from './SignupForm';
 import AddReview from "./AddReview"
 import HikedTrailsList from "./HikedTrailsList"
 import {Routes, Route } from 'react-router-dom'
 import { Box, Container } from '@mui/material';
 import { search } from '@material-ui/icons';
 import AdventurerContainer from "./AdventurerContainer";
+import LoginForm from './LoginForm';
 
 function App() {
   const [adventurers, setAdventurers] = useState([]);
   const [trails, setTrails] = useState([]); // Initialize to empty array
   const [search, setSearch] = useState('')
+  const [adventurer, setAdventurer] = useState(null)
 
   useEffect(() => {
     getTrails();
     getAdventurers();
+    getAdventurer();
   }, []);
 
   function getTrails() {
@@ -36,6 +39,21 @@ function App() {
       .catch((error) => console.error('Error:', error));
   }
 
+  function getAdventurer() {
+    fetch('/authorize_session')
+      .then(response => {
+      if (response.ok) {
+        response.json().then((adventurer) => setAdventurer(adventurer))}
+       
+      else  {setAdventurer(null)} 
+      })
+  }
+
+   function updateAdventurer(adventurer) {
+        setAdventurer(adventurer)
+   } 
+
+
   const handleSearch = (newStr) => {
     setSearch(newStr)
   }
@@ -46,21 +64,20 @@ function App() {
   
   return (
     <div>
-        <NavBar />
+        <NavBar updateAdventurer={updateAdventurer} adventurer={adventurer}/>
         <Box>
           <Search search={search} handleSearch={handleSearch}/>
         </Box>
         <Box>
-  
-        {/* <TrailList trails={filteredTrails}/> */}
         <Routes>
           <Route path="/home" element={<TrailList trails={filteredTrails}/>}/>
           <Route path="/safety" element={<Safety />} />
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/signup" element={<SignupForm updateAdventurer={updateAdventurer}/>} />
           <Route path="/trail_reviews" element={<AddReview />} />
           <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
           <Route path="/trails" element={<TrailList trails={trails}/>} />
           <Route path="/hiked_trails" element={<HikedTrailsList />} />
+          <Route path="/login" element={<LoginForm updateAdventurer={updateAdventurer} />} />
         </Routes>
         </Box>
     </div>
