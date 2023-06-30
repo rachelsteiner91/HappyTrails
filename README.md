@@ -48,15 +48,13 @@ https://www.figma.com/file/7zUR0oTTuSDc9zeY66zNAW/Happy-Trails-team-library?type
 ## Client-side Routes
 | Client Route   | Component     |
 |----------------|---------------|
-| /              | App.js        |
-| /trails        | trailList.js  |
-| /trail/id      | trailCard.js  |
-| /friends       | friendList    |
-| /friends/id    | friendCard.js |
-| /add_review/id | addReview.js  |
-| /favorites     | favorites.js  |
-| /safety        | safety.js     |
-| /login         | loginForm.js  |
+| /home              | TrailList.js        |
+| /trails        | TrailList.js  |
+| /hiked_trails      | HikedTrailList.js  |
+| /trail_reviews | AddReview.js  |
+| /signup    | SignupForm.js  |
+| /safety        | Safety.js     |
+| /login         | LoginForm.js  |
 
 ## Trello Board
 <img src='./Trello.png' alt='Trello'>
