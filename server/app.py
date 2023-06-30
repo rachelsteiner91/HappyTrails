@@ -64,7 +64,7 @@ class Signup(Resource):
 api.add_resource(Signup, '/signup') 
         
 #-----LOGIN-------------#
-class Login(Resource):4
+class Login(Resource):
     def post(self):
         try:
             data = request.get_json()
