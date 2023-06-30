@@ -6,14 +6,16 @@ function AdventurerContainer({adventurers}) {
 
 
   return (
-      <div>
+      <div>Authorization
+        {/*adventurer card*/}
+          <div>
             {
               [...adventurers].map((el) => {
                 return <AdventurerCard key = {el.id} adventurer={el} />
               })
             }
       </div>
-  )
+    )
 }
 
-export default AdventurerContainer
+export default AdventurerContainer;

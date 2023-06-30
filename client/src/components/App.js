@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-
-import { Routes, Route } from "react-router-dom";
-
+import React, { useState, useEffect } from 'react'
+import './App.css';
 import NavBar from "./NavBar";
-import Safety from "./Safety";
-import Authorization from "./Authorization";
-import AddReview from "./AddReview";
-import AdventurerContainer from "./AdventurerContainer";
+import Search from "./Search";
 import TrailList from "./TrailList";
-import HikedTrailsList from "./HikedTrailsList";
+import Favorites from "./Favorites";
+import Auth from "./Auth";
+import Safety from "./Safety";
+import AdventurerContainer from "./AdventurerContainer";
+import LoginForm from "./LoginForm";
 
 function App() {
   const [adventurers, setAdventurers] = useState([]);
@@ -40,17 +39,20 @@ function App() {
   return (
     <div>
         <NavBar />
+        <Search />
+        <LoginForm />
         <Routes>
-          <Route path="/home" element={<TrailList trails={trails}/>} />
-          <Route path="/safety" element={<Safety />} />
-          <Route path="/auth" element={<Authorization />} />
-          <Route path="/trail_reviews" element={<AddReview />} />
-          <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
           <Route path="/trails" element={<TrailList trails={trails}/>} />
-          <Route path="/hiked_trails" element={<HikedTrailsList />} />
+          <Route path="/adventurers" element={<AdventurerContainer adventurers={adventurers}/>} />
+          {/* <Route path="/favorites" element={Favorites} />
+          <Route path="/profile" render={(props) => <Auth {...props} adventurers={adventurers} />} />
+          <Route path="/safety-guidelines" component={Safety} /> */}
         </Routes>
-      </div>
-  )
+
+      
+
+    </div>
+  );
 }
 
 
@@ -67,3 +69,103 @@ export default App;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+// import NavBar from "./NavBar";
+// import Search from "./Search";
+
+// import TrailList from "./TrailList";
+// import Favorites from "./Favorites";
+// import Authorization from "./Authorization";
+// import Safety from "./Safety";
+
+
+
+
+
+// /*
+// App
+// |---NavBar
+// |---Search
+// |---Safety
+// |---Favorites
+// |---Authorization
+// |       |- AdventurerCard(profile page)
+// |       |- AddReview
+// |       |-LoginForm
+// |       |- HikedTrailList
+// |               |-HikedTrailCard
+// |---TrailList
+//     |-TrailCard
+
+// */
+
+
+// function App() {
+
+//   //Adventurer state
+//   const [adventurers, setAdventurers] = useState([])
+//   //Trails state
+//   const [trails, setTrails] = useState([])
+
+//   //GET request for trails
+//   useEffect(() => {getTrails()}, [] )
+
+//   function getTrails(){
+//     fetch('/trails')
+//     .then(res => res.json())
+//     .then(data => setTrails(data))
+//   }
+ 
+
+// //GET Adventurers
+// useEffect((e) => {
+//   fetch('/adventurers')
+//   .then(res => res.json())
+//   .then(adventurers => setAdventurers(adventurers))
+// }, [])
+
+
+
+
+ 
+//   class App extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                 <NavBar />
+//                 <Search />
+//                 <Routes>
+//                   <Route exact path="/" element={<TrailList/>}>Explore</Route>
+//                   <Route exact path="/favorites" element={<Favorites />}>Favorites</Route>
+//                   {/* Does this path name need to be changed? Or are we cool with this?*/}
+//                   <Route exact path="/profile" element={<Authorization adventurers={adventurers}/>}>Profile or Login/Logout?</Route>
+//                   <Route exact path="/safety-guidelines" element={<Safety />}>Safety Guidelines</Route>
+//                 </Routes>
+//             </div>
+//         );
+//     }
+//   }
+
+// }
+
+// export default App;

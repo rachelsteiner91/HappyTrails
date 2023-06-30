@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {useFormik} from "formik";
 import * as yup from "yup";
 import {useNavigate} from "react-router-dom"
 
 //should be adventurer form
-function Authorization(){
-    const [signup, setSignup] = useState(true)
-    const [error, setError] = useState(null)
+function Auth(){
+
     const navigate = useNavigate()
-    const toggleSignup = () => setSignup(prev => !prev);
-     
+    //create schema:
+    //name required
+    //username
+    //email required
+    //password
+    //bio
+    //image
     const schema = yup.object().shape({
         name: yup.string().required("Name is required."),
         username: yup.string().required("Username is required"),
@@ -35,7 +39,7 @@ function Authorization(){
         validationSchema: schema,
       //submit callback
         onSubmit: (values) => {
-            fetch(signup ? "/signup" : "/login", {
+            fetch("/login", {
                 method: "POST",
                 headers: {
                     "content-type" : "application/json"
@@ -44,8 +48,8 @@ function Authorization(){
             }).then (res => {
                 if(res.ok){
                     res.json().then(adventurer => {
-                        
-                        navigate("/")
+                        console.log(adventurer)
+                        navigate("/adventurers/${adventurer.id}")
                     })
                 } else{
                     console.log("oops")
@@ -58,7 +62,6 @@ function Authorization(){
 
     return (
         <section>
-            { signup ? (
             <form onSubmit={formik.handleSubmit}>
             <label> Name:
             <input 
@@ -127,46 +130,54 @@ function Authorization(){
             <h3>{formik.errors.image}</h3>
             ) : ("")}
             </label>
-            <input type="submit" value="Take A Hike!" />
+            <input type="submit" value="Submit" />
             </form>
-            ) : (
-            <form onSubmit={formik.handleSubmit}>
-                <label> Username:
-                <input
-                type="text"
-                name="username" 
-                onChange={formik.handleChange}
-                value={formik.values.username}
-                onBlur={formik.handleBlur}/>
-                {formik.touched.username && formik.errors.username ? (
-                <h3>{formik.errors.username}</h3>
-                ) : ("")}
-                </label>
-                <label> Password
-                <input 
-                 type="password" 
-                 name="password" 
-                 onChange={formik.handleChange}
-                 value={formik.values.password}
-                 onBlur={formik.handleBlur}/>
-                {formik.touched.password && formik.errors.password ? (
-                 <h3>{formik.errors.password}</h3>
-                 ) : ("")}
-                </label>
-                <input type="submit" value="Log In" className="button" />
-				{error ? <label style={{ color: "red" }}>{error}</label> : ""}
-            </form>
-            )}
-            <section>
-				<p>{signup ? "Already have an account?" : "Not a member?"}</p>
-				<button className="button" onClick={toggleSignup}>
-					{signup ? "Login" : "Sign Up"}
-				</button>
-			</section>
         </section>
     )
 }
 
-export default Authorization;
+export default Auth;
 
 
+  // const [signup, setSignup] = useState(true);
+	// const [error, setError] = useState(null);
+
+	// const navigate = useNavigate();
+	// const toggleSignup = () => setSignup((prev) => !prev)
+
+
+  // const formSchema = yup.object().shape({
+	// 	name: yup.string(),
+	// 	username: yup.string().required("Please enter a username"),
+	// 	password: yup.string().required("Please enter a password"),
+	// });
+
+
+  // const formik = useFormik({
+	// 	initialValues: {
+	// 		username: "",
+	// 		name: "",
+	// 		password: "",
+	// 	},
+  //   validationSchema: formSchema,
+	// 	onSubmit: (values, actions) => {
+  //     //only want to make a post to users if signup is true
+  //     fetch(signup ? "/signup" : "/login", {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"content-type": "application/json",
+	// 			},
+	// 			body: JSON.stringify(values),
+	// 		}).then((res) => {
+	// 			if (res.ok) {
+	// 				res.json().then((data) => {
+	// 					actions.resetForm()
+	// 					updateUser(data)
+	// 					navigate("/")
+	// 				});
+	// 			} else {
+  //         res.json().then((err) => setError(err.message))
+  //         }
+  //       })
+  //   }
+  // })
