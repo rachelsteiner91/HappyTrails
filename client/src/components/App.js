@@ -49,8 +49,9 @@ function App() {
       })
   }
 
+  //adds new adventurer to current adventurers on signup
    function updateAdventurer(adventurer) {
-        setAdventurer(adventurer)
+        setAdventurers([...adventurers, adventurer])
    } 
 
 

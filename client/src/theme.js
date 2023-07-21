@@ -7,7 +7,7 @@ const theme = createTheme({
     primary: {
       main: '#B66551',
       light: '#C48373',
-      dark: '#7F4638',
+      // dark: '#7F4638',
     },
     secondary: {
       main: '#3393CD',
@@ -18,7 +18,7 @@ const theme = createTheme({
       main: red.A400,
     },
     background: {
-      default: '#282c34',
+      // default: '#282c34',
     },
   },
   overrides: {

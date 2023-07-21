@@ -30,12 +30,14 @@ function TrailList({trails}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        <Grid item>
         {gridCards}
         {/* {trails.from(trails(6)).map((trail) => (
           <Grid item xs={2} sm={4} md={4} key={trail.id} trail={trail}>
             <Item> <TrailCard /></Item>
           </Grid>
         ))} */}
+        </Grid>
       </Grid>
     </Box>
   );

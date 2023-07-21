@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Button, CardActionArea, CardActions, Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,8 +10,10 @@ import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlin
 //add ternary for button to display depending on if hiked or not
 
 function TrailCard({ trail }) {
-    const { id, name, altitude, difficulty, description, image } = trail;
+    const { id, name, distance, difficulty, description, image } = trail;
     
+    const review_number = trail.trail_reviews.length
+
     return (
       <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
@@ -25,12 +27,20 @@ function TrailCard({ trail }) {
           <Typography gutterBottom variant="h6" component="div">
             {name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body1" color="text.secondary">
             {difficulty}
           </Typography>
-          {/* <Typography variant='h'>
-            {altitude}
-          </Typography> */}
+          <Box>
+          <Typography variant='caption'>
+            {distance}
+          </Typography>
+          </Box>
+          
+          <Typography variant='body1'>{description}</Typography>
+          <Box marginTop={2}>
+          <Typography variant='body2'>Reviews: {review_number}</Typography>
+          </Box>
+      
         </CardContent>
       </CardActionArea>
       <CardActions>
